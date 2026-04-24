@@ -1,9 +1,9 @@
 using System;
 
-namespace VisualScript.Core.EditorBinding
+namespace IoTLogic.Core.EditorBinding
 {
     // Allows us to migrate old serialized namespaces to new ones
-    // Ex usage: [assembly: RenamedNamespace("Bolt", "VisualScript.Core.Reflection")]
+    // Ex usage: [assembly: RenamedNamespace("Bolt", "IoTLogic.Core.Reflection")]
     [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
     public sealed class RenamedNamespaceAttribute : Attribute
     {

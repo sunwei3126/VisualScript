@@ -1,12 +1,12 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using VisualScript.Core.Ensure;
-using VisualScript.Core.Utities;
-using VisualScript.Flow.Connections;
+using IoTLogic.Core.Ensure;
+using IoTLogic.Core.Utities;
+using IoTLogic.Flow.Connections;
 
-namespace VisualScript.Flow.Ports
+namespace IoTLogic.Flow.Ports
 {
     public sealed class ControlInput : UnitPort<ControlOutput, IUnitOutputPort, ControlConnection>, IUnitControlPort, IUnitInputPort
     {
@@ -40,9 +40,9 @@ namespace VisualScript.Flow.Ports
 
         internal readonly Func<Flow, IEnumerator> coroutineAction;
 
-        public override IEnumerable<ControlConnection> ValidConnections => Unit?.Graph?.ControlConnections.WithDestination(this) ?? Enumerable.Empty<ControlConnection>();
+        public override IEnumerable<ControlConnection> ValidConnections => LogicNode?.Graph?.ControlConnections.WithDestination(this) ?? Enumerable.Empty<ControlConnection>();
 
-        public override IEnumerable<InvalidConnection> InvalidConnections => Unit?.Graph?.InvalidConnections.WithDestination(this) ?? Enumerable.Empty<InvalidConnection>();
+        public override IEnumerable<InvalidConnection> InvalidConnections => LogicNode?.Graph?.InvalidConnections.WithDestination(this) ?? Enumerable.Empty<InvalidConnection>();
 
         public override IEnumerable<ControlOutput> ValidConnectedPorts => ValidConnections.Select(c => c.Source);
 
@@ -106,7 +106,7 @@ namespace VisualScript.Flow.Ports
 
             source.Disconnect();
 
-            Unit.Graph.ControlConnections.Add(new ControlConnection(source, destination));
+            LogicNode.Graph.ControlConnections.Add(new ControlConnection(source, destination));
         }
 
         public override void ConnectToInvalid(IUnitOutputPort port)
@@ -120,7 +120,7 @@ namespace VisualScript.Flow.Ports
 
             if (connection != null)
             {
-                Unit.Graph.ControlConnections.Remove(connection);
+                LogicNode.Graph.ControlConnections.Remove(connection);
             }
         }
 
@@ -129,10 +129,10 @@ namespace VisualScript.Flow.Ports
             DisconnectInvalid(port, this);
         }
 
-        public override IUnitPort CompatiblePort(IUnit unit)
+        public override IUnitPort CompatiblePort(ILogicNode LogicNode)
         {
-            if (unit == this.Unit) return null;
-            return Unit.ControlOutputs.FirstOrDefault();
+            if (LogicNode == this.LogicNode) return null;
+            return LogicNode.ControlOutputs.FirstOrDefault();
         }
     }
 }

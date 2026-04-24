@@ -1,7 +1,7 @@
 
 using System;
 
-namespace VisualScript.Core.Reflection
+namespace IoTLogic.Core.Reflection
 {
     public class InequalityHandler : BinaryOperatorHandler
     {

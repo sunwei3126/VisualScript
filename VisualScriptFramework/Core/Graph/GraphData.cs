@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
-namespace VisualScript.Core.Graph
+namespace IoTLogic.Core.Graph
 {
     public class GraphData<TGraph> : IGraphData
         where TGraph : class, IGraph

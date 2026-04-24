@@ -1,6 +1,6 @@
-﻿using VisualScript.Core.Graph;
+using IoTLogic.Core.Graph;
 
-namespace VisualScript.Core.Variables
+namespace IoTLogic.Core.Variables
 {
     public interface IGraphDataWithVariables : IGraphData
     {

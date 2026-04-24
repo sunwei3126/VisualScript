@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using VisualScript.Core.Ensure;
-using VisualScript.Core.Reflection;
-using VisualScript.Flow.Connections;
+using IoTLogic.Core.Ensure;
+using IoTLogic.Core.Reflection;
+using IoTLogic.Flow.Connections;
 
-namespace VisualScript.Flow.Ports
+namespace IoTLogic.Flow.Ports
 {
     public sealed class ValueOutput : UnitPort<ValueInput, IUnitInputPort, ValueConnection>, IUnitValuePort, IUnitOutputPort
     {
@@ -35,9 +35,9 @@ namespace VisualScript.Flow.Ports
 
         public Type Type { get; }
 
-        public override IEnumerable<ValueConnection> ValidConnections => Unit?.Graph?.ValueConnections.WithSource(this) ?? Enumerable.Empty<ValueConnection>();
+        public override IEnumerable<ValueConnection> ValidConnections => LogicNode?.Graph?.ValueConnections.WithSource(this) ?? Enumerable.Empty<ValueConnection>();
 
-        public override IEnumerable<InvalidConnection> InvalidConnections => Unit?.Graph?.InvalidConnections.WithSource(this) ?? Enumerable.Empty<InvalidConnection>();
+        public override IEnumerable<InvalidConnection> InvalidConnections => LogicNode?.Graph?.InvalidConnections.WithSource(this) ?? Enumerable.Empty<InvalidConnection>();
 
         public override IEnumerable<ValueInput> ValidConnectedPorts => ValidConnections.Select(c => c.Destination);
 
@@ -58,7 +58,7 @@ namespace VisualScript.Flow.Ports
 
             destination.Disconnect();
 
-            Unit.Graph.ValueConnections.Add(new ValueConnection(source, destination));
+            LogicNode.Graph.ValueConnections.Add(new ValueConnection(source, destination));
         }
 
         public override void ConnectToInvalid(IUnitInputPort port)
@@ -72,7 +72,7 @@ namespace VisualScript.Flow.Ports
 
             if (connection != null)
             {
-                Unit.Graph.ValueConnections.Remove(connection);
+                LogicNode.Graph.ValueConnections.Remove(connection);
             }
         }
 
@@ -94,10 +94,10 @@ namespace VisualScript.Flow.Ports
             return this;
         }
 
-        public override IUnitPort CompatiblePort(IUnit unit)
+        public override IUnitPort CompatiblePort(ILogicNode LogicNode)
         {
-            if (unit == this.Unit) return null;
-            return unit.CompatibleValueInput(Type);
+            if (LogicNode == this.LogicNode) return null;
+            return LogicNode.CompatibleValueInput(Type);
         }
     }
 }

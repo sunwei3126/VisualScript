@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using VisualScript.Core.Pooling;
-using VisualScript.Core.Utities;
+using IoTLogic.Core.Pooling;
+using IoTLogic.Core.Utities;
 
-namespace VisualScript.Core.Graph
+namespace IoTLogic.Core.Graph
 {
     public abstract class GraphElement<TGraph> : IGraphElement where TGraph : class, IGraph
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace VVisualScript.Flow.Ports
+namespace IoTLogic.Flow.Ports
 {
     public sealed class MissingValuePortInputException : Exception
     {

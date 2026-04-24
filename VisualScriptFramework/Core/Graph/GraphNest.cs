@@ -1,8 +1,8 @@
-﻿using System;
-using VisualScript.Core.Exceptions;
-using VisualScript.Core.Macros;
+using System;
+using IoTLogic.Core.Exceptions;
+using IoTLogic.Core.Macros;
 
-namespace VisualScript.Core.Graph
+namespace IoTLogic.Core.Graph
 {
     public sealed class GraphNest<TGraph, TMacro> : IGraphNest
          where TGraph : class, IGraph, new()

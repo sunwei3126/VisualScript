@@ -1,14 +1,14 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VisualScript.Flow;
-using VisualScript.Flow.Ports;
+using IoTLogic.Flow;
+using IoTLogic.Flow.Ports;
 
-namespace VisualScriptFramework.Flow.Framework
+namespace IoTLogic.Flow.Framework
 {
-    public abstract class Absolute<TInput>: Unit
+    public abstract class Absolute<TInput>: LogicNode
     {
         public ValueInput input { get; private set; }
 
@@ -24,7 +24,7 @@ namespace VisualScriptFramework.Flow.Framework
 
         protected abstract TInput Operation(TInput input);
 
-        public TInput Operation(VisualScript.Flow.Flow flow)
+        public TInput Operation(IoTLogic.Flow.Flow flow)
         {
             return Operation(flow.GetValue<TInput>(input));
         }

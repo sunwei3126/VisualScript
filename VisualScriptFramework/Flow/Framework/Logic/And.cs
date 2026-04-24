@@ -1,14 +1,14 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VisualScript.Flow;
-using VisualScript.Flow.Ports;
+using IoTLogic.Flow;
+using IoTLogic.Flow.Ports;
 
-namespace VisualScriptFramework.Flow.Framework.Logic
+namespace IoTLogic.Flow.Framework.Logic
 {
-    public sealed class And: Unit
+    public sealed class And: LogicNode
     {
         public ValueInput a { get; private set; }
 
@@ -25,7 +25,7 @@ namespace VisualScriptFramework.Flow.Framework.Logic
             Requirement(b, result);
         }
 
-        private bool Operation(VisualScript.Flow.Flow flow)
+        private bool Operation(IoTLogic.Flow.Flow flow)
         {
             return flow.GetValue<bool>(a) && flow.GetValue<bool>(b);
         }

@@ -1,6 +1,6 @@
 using System;
 
-namespace VisualScript.Flow.Ports
+namespace IoTLogic.Flow.Ports
 {
     public abstract class ValuePortDefinition : UnitPortDefinition, IUnitValuePortDefinition
     {

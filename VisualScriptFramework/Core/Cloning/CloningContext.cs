@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using VisualScript.Core.Pooling;
-using VisualScript.Core.Utities;
+using IoTLogic.Core.Pooling;
+using IoTLogic.Core.Utities;
 
-namespace VisualScript.Core.Reflection
+namespace IoTLogic.Core.Reflection
 {
     public sealed class CloningContext : IPoolable, IDisposable
     {

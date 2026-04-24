@@ -1,12 +1,12 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using VisualScript.Core.Ensure;
-namespace VisualScript.Core.Reflection
+using IoTLogic.Core.Ensure;
+namespace IoTLogic.Core.Reflection
 {
     public static class AttributeUtility
     {

@@ -1,13 +1,13 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VisualScript.Core.Collections;
-using VisualScript.Core.Reflection;
-using VisualScript.Core.Utities;
+using IoTLogic.Core.Collections;
+using IoTLogic.Core.Reflection;
+using IoTLogic.Core.Utities;
 
-namespace VisualScript.Core.Graph
+namespace IoTLogic.Core.Graph
 {
     public interface IGraphElement : IGraphItem, INotifiedCollectionItem, IDisposable, IPrewarmable,IIdentifiable, IAnalyticsIdentifiable
     {

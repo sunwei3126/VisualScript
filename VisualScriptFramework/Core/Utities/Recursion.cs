@@ -1,12 +1,12 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VisualScript.Core.Pooling;
+using IoTLogic.Core.Pooling;
 
-namespace VisualScript.Core.Utities
+namespace IoTLogic.Core.Utities
 {
     public class Recursion<T> : IPoolable, IDisposable
     {

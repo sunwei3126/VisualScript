@@ -1,4 +1,4 @@
-namespace VisualScript.Flow.Ports
+namespace IoTLogic.Flow.Ports
 {
     public sealed class ControlOutputDefinition : ControlPortDefinition, IUnitOutputPortDefinition { }
 }

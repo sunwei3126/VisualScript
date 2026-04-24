@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VisualScript.Core.Utities
+namespace IoTLogic.Core.Utities
 {
     // For some reason, Enumerable.Empty<T>() seems to allocate 240b in Unity,
     // even though Mono source seems to use a shared 0-length array instance.

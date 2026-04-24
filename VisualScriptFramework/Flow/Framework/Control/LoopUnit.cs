@@ -1,15 +1,15 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VisualScript.Flow;
-using VisualScript.Flow.Ports;
+using IoTLogic.Flow;
+using IoTLogic.Flow.Ports;
 
-namespace VisualScriptFramework.Flow.Framework
+namespace IoTLogic.Flow.Framework
 {
-    public abstract class LoopUnit: Unit
+    public abstract class LoopUnit: LogicNode
     {
         public ControlInput enter { get; private set; }
 
@@ -27,8 +27,8 @@ namespace VisualScriptFramework.Flow.Framework
             Succession(enter, exit);
         }
 
-        protected abstract ControlOutput Loop(VisualScript.Flow.Flow flow);
+        protected abstract ControlOutput Loop(IoTLogic.Flow.Flow flow);
 
-        protected abstract IEnumerator LoopCoroutine(VisualScript.Flow.Flow flow);
+        protected abstract IEnumerator LoopCoroutine(IoTLogic.Flow.Flow flow);
     }
 }

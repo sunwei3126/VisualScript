@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VisualScript.Core.Utities;
+using IoTLogic.Core.Utities;
 
-namespace VisualScript.Core.Pooling
+namespace IoTLogic.Core.Pooling
 {
     public static class GenericPool<T> where T : class, IPoolable
     {

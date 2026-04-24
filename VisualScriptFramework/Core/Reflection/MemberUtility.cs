@@ -1,12 +1,12 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using VisualScript.Core.EditorBinding;
-using VisualScript.Core.Utities;
+using IoTLogic.Core.EditorBinding;
+using IoTLogic.Core.Utities;
 
-namespace VisualScript.Core.Reflection
+namespace IoTLogic.Core.Reflection
 {
     public static class MemberUtility
     {
@@ -490,7 +490,7 @@ namespace VisualScript.Core.Reflection
 
         public static MemberInfo[] GetExtendedMembers(this Type type, BindingFlags flags)
         {
-            var hashSet = VisualScript.Core.Utities.LinqUtility.ToHashSet(type.GetMembers(flags));
+            var hashSet = IoTLogic.Core.Utities.LinqUtility.ToHashSet(type.GetMembers(flags));
             var members = hashSet;
 
             foreach (var extensionMethod in type.GetExtensionMethods())

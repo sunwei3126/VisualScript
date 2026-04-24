@@ -1,7 +1,7 @@
-﻿using System;
-using VisualScript.Core.Reflection;
+using System;
+using IoTLogic.Core.Reflection;
 
-namespace VisualScript.Core.Ensure
+namespace IoTLogic.Core.Ensure
 {
     public partial class EnsureThat
     {

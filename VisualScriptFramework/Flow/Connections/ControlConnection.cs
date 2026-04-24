@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Linq;
-using VisualScript.Core.Connections;
-using VisualScript.Flow.Ports;
+using IoTLogic.Core.Connections;
+using IoTLogic.Flow.Ports;
 
-namespace VisualScript.Flow.Connections
+namespace IoTLogic.Flow.Connections
 {
     public sealed class ControlConnection : UnitConnection<ControlOutput, ControlInput>, IUnitConnection
     {

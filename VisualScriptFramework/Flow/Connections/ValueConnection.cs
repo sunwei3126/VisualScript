@@ -1,12 +1,12 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using VisualScript.Core.Connections;
-using VisualScript.Core.Graph;
-using VisualScript.Core.Reflection;
-using VisualScript.Flow.Ports;
+using IoTLogic.Core.Connections;
+using IoTLogic.Core.Graph;
+using IoTLogic.Core.Reflection;
+using IoTLogic.Flow.Ports;
 
-namespace VisualScript.Flow.Connections
+namespace IoTLogic.Flow.Connections
 {
     public sealed class ValueConnection : UnitConnection<ValueOutput, ValueInput>, IUnitConnection
     {

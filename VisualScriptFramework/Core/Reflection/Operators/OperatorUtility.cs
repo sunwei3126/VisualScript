@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using VisualScript.Core.Exceptions;
+using IoTLogic.Core.Exceptions;
 
-namespace VisualScript.Core.Reflection
+namespace IoTLogic.Core.Reflection
 {
     public static class OperatorUtility
     {

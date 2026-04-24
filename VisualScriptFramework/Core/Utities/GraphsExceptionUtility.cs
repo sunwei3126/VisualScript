@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using VisualScript.Core.Graph;
+using IoTLogic.Core.Graph;
 
-namespace VisualScript.Core.Utities
+namespace IoTLogic.Core.Utities
 {
     public static class GraphsExceptionUtility
     {

@@ -2,9 +2,9 @@ using System;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Reflection.Emit;
-using VisualScript.Core.Ensure;
+using IoTLogic.Core.Ensure;
 
-namespace VisualScript.Core.Reflection
+namespace IoTLogic.Core.Reflection
 {
     public class InstanceFieldAccessor<TTarget, TField> : IOptimizedAccessor
     {

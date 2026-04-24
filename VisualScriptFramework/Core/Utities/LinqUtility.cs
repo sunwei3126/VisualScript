@@ -1,14 +1,14 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VisualScript.Core.Ensure;
-using VisualScript.Core.Pooling;
+using IoTLogic.Core.Ensure;
+using IoTLogic.Core.Pooling;
 
-namespace VisualScript.Core.Utities
+namespace IoTLogic.Core.Utities
 {
     public static class LinqUtility
     {

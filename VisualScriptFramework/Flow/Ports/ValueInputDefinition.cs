@@ -1,8 +1,8 @@
 using System;
-using VisualScript.Core.Reflection;
-using VisualScript.Core.Ensure;
+using IoTLogic.Core.Reflection;
+using IoTLogic.Core.Ensure;
 
-namespace VisualScript.Flow.Ports
+namespace IoTLogic.Flow.Ports
 {
     public sealed class ValueInputDefinition : ValuePortDefinition, IUnitInputPortDefinition
     {

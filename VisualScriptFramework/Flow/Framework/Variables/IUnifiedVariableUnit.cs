@@ -1,14 +1,14 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VisualScript.Core.Variables;
-using VisualScript.Flow.Ports;
+using IoTLogic.Core.Variables;
+using IoTLogic.Flow.Ports;
 
-namespace VisualScript.Flow.Framework
+namespace IoTLogic.Flow.Framework
 {
-    public interface IUnifiedVariableUnit : IUnit
+    public interface IUnifiedVariableUnit : ILogicNode
     {
         VariableKind Kind { get; }
         ValueInput Name { get; }

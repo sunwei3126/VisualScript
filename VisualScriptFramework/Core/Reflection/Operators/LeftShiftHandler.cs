@@ -1,4 +1,4 @@
-namespace VisualScript.Core.Reflection
+namespace IoTLogic.Core.Reflection
 {
     public class LeftShiftHandler : BinaryOperatorHandler
     {

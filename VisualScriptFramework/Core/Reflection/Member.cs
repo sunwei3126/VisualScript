@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,12 +7,12 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using VisualScript.Core.EditorBinding;
-using VisualScript.Core.Ensure;
-using VisualScript.Core.Exceptions;
-using VisualScript.Core.Utities;
+using IoTLogic.Core.EditorBinding;
+using IoTLogic.Core.Ensure;
+using IoTLogic.Core.Exceptions;
+using IoTLogic.Core.Utities;
 
-namespace VisualScript.Core.Reflection
+namespace IoTLogic.Core.Reflection
 {
     //[SerializationVersion("A")]
     public sealed class Member
@@ -583,7 +583,7 @@ namespace VisualScript.Core.Reflection
             }
             catch (NotSupportedException e)
             {
-                throw new InvalidOperationException($"An error occured when trying to reflect the member '{name}' of the type '{targetType.FullName}' in a '{GetType().Name}' unit. Supported member types: {SupportedMemberTypes}, supported binding flags: {SupportedBindingFlags}", e);
+                throw new InvalidOperationException($"An error occured when trying to reflect the member '{name}' of the type '{targetType.FullName}' in a '{GetType().Name}' LogicNode. Supported member types: {SupportedMemberTypes}, supported binding flags: {SupportedBindingFlags}", e);
             }
 
             if (candidates.Length == 0) // Not found, check if it might have been renamed
@@ -602,7 +602,7 @@ namespace VisualScript.Core.Reflection
                     }
                     catch (NotSupportedException e)
                     {
-                        throw new InvalidOperationException($"An error occured when trying to reflect the renamed member '{name}' of the type '{targetType.FullName}' in a '{GetType().Name}' unit. Supported member types: {SupportedMemberTypes}, supported binding flags: {SupportedBindingFlags}", e);
+                        throw new InvalidOperationException($"An error occured when trying to reflect the renamed member '{name}' of the type '{targetType.FullName}' in a '{GetType().Name}' LogicNode. Supported member types: {SupportedMemberTypes}, supported binding flags: {SupportedBindingFlags}", e);
                     }
                 }
             }

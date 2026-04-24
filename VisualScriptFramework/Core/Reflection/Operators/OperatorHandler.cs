@@ -1,6 +1,6 @@
 
-using VisualScript.Core.Ensure;
-namespace VisualScript.Core.Reflection
+using IoTLogic.Core.Ensure;
+namespace IoTLogic.Core.Reflection
 {
     public abstract class OperatorHandler
     {

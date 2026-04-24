@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VisualScript.Core.Graph;
+using IoTLogic.Core.Graph;
 
-namespace VisualScript.Core.Macros
+namespace IoTLogic.Core.Macros
 {
     public interface IMacro : IGraphRoot
     {

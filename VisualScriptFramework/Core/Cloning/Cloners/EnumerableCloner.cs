@@ -1,9 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using VisualScript.Core.Reflection;
+using IoTLogic.Core.Reflection;
 
-namespace VisualScript.Core.Reflection
+namespace IoTLogic.Core.Reflection
 {
     public sealed class EnumerableCloner : Cloner<IEnumerable>
     {

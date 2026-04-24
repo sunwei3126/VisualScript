@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using VisualScript.Core.Utities;
+using IoTLogic.Core.Utities;
 
-namespace VisualScript.Core.Reflection
+namespace IoTLogic.Core.Reflection
 {
     public abstract class BinaryOperatorHandler : OperatorHandler
     {

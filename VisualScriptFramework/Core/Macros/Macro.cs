@@ -1,7 +1,7 @@
-﻿using System;
-using VisualScript.Core.Graph;
+using System;
+using IoTLogic.Core.Graph;
 
-namespace VisualScript.Core.Macros
+namespace IoTLogic.Core.Macros
 {
     //[DisableAnnotation]
     public abstract class Macro<TGraph> : IMacro
@@ -71,7 +71,7 @@ namespace VisualScript.Core.Macros
         // https://support.ludiq.io/communities/5/topics/4434-undo-bug-isolated
         // The issue seems to be that newly created assets don't receive OnAfterDeserialize,
         // and therefore never notify the dependencies system that they became available.
-        // Therefore, if any graph relied on a macro dependency (super unit, super state, flow state, state unit)
+        // Therefore, if any graph relied on a macro dependency (super LogicNode, super state, flow state, state LogicNode)
         // that was created before a deserialization of that dependency (usually enter/exit play mode, restart Unity),
         // it would silently never load, not throwing any error or warning along the way.
         // For example, creating a new flow macro, dragging it to create a super node in another graph,

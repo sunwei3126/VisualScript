@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 
 
-namespace VisualScript.Core.Reflection
+namespace IoTLogic.Core.Reflection
 {
     // Inspirations:
     // http://stackoverflow.com/a/26733318

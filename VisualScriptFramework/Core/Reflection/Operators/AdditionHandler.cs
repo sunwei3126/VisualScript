@@ -1,5 +1,5 @@
 
-namespace VisualScript.Core.Reflection
+namespace IoTLogic.Core.Reflection
 {
     public sealed class AdditionHandler : BinaryOperatorHandler
     {

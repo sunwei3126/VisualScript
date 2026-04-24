@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
-using VisualScript.Flow.Connections;
+using IoTLogic.Flow.Connections;
 
-namespace VisualScript.Flow.Ports
+namespace IoTLogic.Flow.Ports
 {
     public sealed class InvalidOutput : UnitPort<IUnitInputPort, IUnitInputPort, InvalidConnection>, IUnitInvalidPort, IUnitOutputPort
     {
         public InvalidOutput(string key) : base(key) { }
 
-        public override IEnumerable<InvalidConnection> ValidConnections => Unit?.Graph?.InvalidConnections.WithSource(this) ?? Enumerable.Empty<InvalidConnection>();
+        public override IEnumerable<InvalidConnection> ValidConnections => LogicNode?.Graph?.InvalidConnections.WithSource(this) ?? Enumerable.Empty<InvalidConnection>();
 
         public override IEnumerable<InvalidConnection> InvalidConnections => Enumerable.Empty<InvalidConnection>();
 
@@ -41,7 +41,7 @@ namespace VisualScript.Flow.Ports
             DisconnectInvalid(this, port);
         }
 
-        public override IUnitPort CompatiblePort(IUnit unit)
+        public override IUnitPort CompatiblePort(ILogicNode LogicNode)
         {
             return null;
         }

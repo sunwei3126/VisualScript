@@ -1,7 +1,7 @@
-﻿using System.Collections.ObjectModel;
-using VisualScript.Flow.Ports;
+using System.Collections.ObjectModel;
+using IoTLogic.Flow.Ports;
 
-namespace VisualScript.Flow
+namespace IoTLogic.Flow
 {
     public sealed class UnitPortDefinitionCollection<T> : Collection<T> where T : IUnitPortDefinition { }
 }

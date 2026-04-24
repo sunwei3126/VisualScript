@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using VisualScript.Core.Pooling;
+using IoTLogic.Core.Pooling;
 
-namespace VisualScript.Core.Graph
+namespace IoTLogic.Core.Graph
 {
     public sealed class GraphReference : GraphPointer
     {

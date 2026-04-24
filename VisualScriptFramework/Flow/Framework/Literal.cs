@@ -1,17 +1,17 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VisualScript.Core.Ensure;
-using VisualScript.Core.Reflection;
-using VisualScript.Core.Utities;
-using VisualScript.Flow;
-using VisualScript.Flow.Ports;
+using IoTLogic.Core.Ensure;
+using IoTLogic.Core.Reflection;
+using IoTLogic.Core.Utities;
+using IoTLogic.Flow;
+using IoTLogic.Flow.Ports;
 
-namespace VisualScriptFramework.Flow.Framework
+namespace IoTLogic.Flow.Framework
 {
-    public sealed class Literal: Unit
+    public sealed class Literal: LogicNode
     {
         public Literal() : base() { }
         public Literal(Type type) : this(type, type.PseudoDefault()) { }

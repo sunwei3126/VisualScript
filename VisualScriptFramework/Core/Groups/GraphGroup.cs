@@ -1,7 +1,7 @@
-﻿using System.Windows.Media;
-using VisualScript.Core.Graph;
+using System.Windows.Media;
+using IoTLogic.Core.Graph;
 
-namespace VisualScript.Core.Groups
+namespace IoTLogic.Core.Groups
 {
     //[SerializationVersion("A")]
     public sealed class GraphGroup : GraphElement<IGraph>

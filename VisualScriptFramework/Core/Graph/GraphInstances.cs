@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using VisualScript.Core.Pooling;
-using VisualScript.Core.Utities;
+using IoTLogic.Core.Pooling;
+using IoTLogic.Core.Utities;
 
-namespace VisualScript.Core.Graph
+namespace IoTLogic.Core.Graph
 {
     public static class GraphInstances
     {
@@ -50,7 +50,7 @@ namespace VisualScript.Core.Graph
                 }
                 else
                 {
-                    Console.WriteLine($"Attempting to add duplicate parent instance mapping:\n{instance.Parent.ToSafeString()} => {instance}");
+                    Console.WriteLine($"Attempting to add duplicate parent instance mapping:\n{instance.Parent} => {instance}");
                 }
             }
         }
@@ -98,7 +98,7 @@ namespace VisualScript.Core.Graph
                 }
                 else
                 {
-                    Console.WriteLine($"Could not find parent instance mapping to remove:\n{instance.Parent.ToSafeString()} => {instance}");
+                    Console.WriteLine($"Could not find parent instance mapping to remove:\n{instance.Parent} => {instance}");
                 }
 
                 // It's important to only free the graph data after

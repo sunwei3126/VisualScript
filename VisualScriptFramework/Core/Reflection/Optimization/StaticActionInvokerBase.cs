@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace VisualScript.Core.Reflection
+namespace IoTLogic.Core.Reflection
 {
     public abstract class StaticActionInvokerBase : StaticInvokerBase
     {

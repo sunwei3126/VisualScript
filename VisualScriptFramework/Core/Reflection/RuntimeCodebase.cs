@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -6,9 +6,9 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
-using VisualScript.Core.EditorBinding;
+using IoTLogic.Core.EditorBinding;
 
-namespace VisualScript.Core.Reflection
+namespace IoTLogic.Core.Reflection
 {
     public static class RuntimeCodebase
     {
@@ -26,7 +26,7 @@ namespace VisualScript.Core.Reflection
            This is a hack to force our RuntimeCodebase to use the RenamedTypeLookup for certain types when we deserialize them.
            When we migrate from asset store to package assemblies (With new names), we want to deserialize our types
            to the new types with new namespaces that exist in our new assemblies
-           (Ex: VisualScript.Core.Reflection.SuperUnit instead of Bolt.SuperUnit).
+           (Ex: IoTLogic.Core.Reflection.SuperUnit instead of Bolt.SuperUnit).
 
            Problem arises because we're migrating via script. Deleting the old assembly files on the disk doesn't remove
            them from our AppDomain, and we can't unload specific assemblies.

@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace VisualScript.Core.Exceptions
+namespace IoTLogic.Core.Exceptions
 {
     public static class DebugUtility
     {

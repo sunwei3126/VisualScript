@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.ObjectModel;
-using VisualScript.Core.Utities;
+using IoTLogic.Core.Utities;
 
 
-namespace VisualScript.Core.Collections
+namespace IoTLogic.Core.Collections
 {
     public class GuidCollection<T> : KeyedCollection<Guid, T>, IKeyedCollection<Guid, T> where T : IIdentifiable
     {

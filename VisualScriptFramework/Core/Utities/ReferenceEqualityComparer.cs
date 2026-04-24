@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VisualScript.Core.Utities
+namespace IoTLogic.Core.Utities
 {
     // Implementation From Roslyn:
     // http://source.roslyn.io/#microsoft.codeanalysis/InternalUtilities/ReferenceEqualityComparer.cs

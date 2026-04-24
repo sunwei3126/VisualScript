@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 
-namespace VisualScript.Core.Reflection
+namespace IoTLogic.Core.Reflection
 {
     public sealed class ListCloner : Cloner<IList>
     {

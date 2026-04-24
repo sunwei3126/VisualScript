@@ -1,14 +1,14 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
-using VisualScript.Core.Ensure;
-using VisualScript.Core.Reflection;
-using VisualScript.Flow.Connections;
+using IoTLogic.Core.Ensure;
+using IoTLogic.Core.Reflection;
+using IoTLogic.Flow.Connections;
 
-namespace VisualScript.Flow.Ports
+namespace IoTLogic.Flow.Ports
 {
     public sealed class ValueInput : UnitPort<ValueOutput, IUnitOutputPort, ValueConnection>, IUnitValuePort, IUnitInputPort
     {
@@ -21,11 +21,11 @@ namespace VisualScript.Flow.Ports
 
         public Type Type { get; }
 
-        public bool HasDefaultValue => Unit.DefaultValues.ContainsKey(Key);
+        public bool HasDefaultValue => LogicNode.DefaultValues.ContainsKey(Key);
 
-        public override IEnumerable<ValueConnection> ValidConnections => Unit?.Graph?.ValueConnections.WithDestination(this) ?? Enumerable.Empty<ValueConnection>();
+        public override IEnumerable<ValueConnection> ValidConnections => LogicNode?.Graph?.ValueConnections.WithDestination(this) ?? Enumerable.Empty<ValueConnection>();
 
-        public override IEnumerable<InvalidConnection> InvalidConnections => Unit?.Graph?.InvalidConnections.WithDestination(this) ?? Enumerable.Empty<InvalidConnection>();
+        public override IEnumerable<InvalidConnection> InvalidConnections => LogicNode?.Graph?.InvalidConnections.WithDestination(this) ?? Enumerable.Empty<InvalidConnection>();
 
         public override IEnumerable<ValueOutput> ValidConnectedPorts => ValidConnections.Select(c => c.Source);
 
@@ -37,11 +37,11 @@ namespace VisualScript.Flow.Ports
         {
             get
             {
-                return Unit.DefaultValues[Key];
+                return LogicNode.DefaultValues[Key];
             }
             set
             {
-                Unit.DefaultValues[Key] = value;
+                LogicNode.DefaultValues[Key] = value;
             }
         }
 
@@ -49,7 +49,7 @@ namespace VisualScript.Flow.Ports
 
         public bool allowsNull { get; private set; }
 
-        public ValueConnection Connection => Unit.Graph?.ValueConnections.SingleOrDefaultWithDestination(this);
+        public ValueConnection Connection => LogicNode.Graph?.ValueConnections.SingleOrDefaultWithDestination(this);
 
         public override bool HasValidConnection => Connection != null;
 
@@ -62,13 +62,13 @@ namespace VisualScript.Flow.Ports
                 return;
             }
 
-            if (Unit.DefaultValues.ContainsKey(Key))
+            if (LogicNode.DefaultValues.ContainsKey(Key))
             {
-                Unit.DefaultValues[Key] = value;
+                LogicNode.DefaultValues[Key] = value;
             }
             else
             {
-                Unit.DefaultValues.Add(Key, value);
+                LogicNode.DefaultValues.Add(Key, value);
             }
         }
 
@@ -87,7 +87,7 @@ namespace VisualScript.Flow.Ports
 
             destination.Disconnect();
 
-            Unit.Graph.ValueConnections.Add(new ValueConnection(source, destination));
+            LogicNode.Graph.ValueConnections.Add(new ValueConnection(source, destination));
         }
 
         public override void ConnectToInvalid(IUnitOutputPort port)
@@ -101,7 +101,7 @@ namespace VisualScript.Flow.Ports
 
             if (connection != null)
             {
-                Unit.Graph.ValueConnections.Remove(connection);
+                LogicNode.Graph.ValueConnections.Remove(connection);
             }
         }
 
@@ -140,11 +140,11 @@ namespace VisualScript.Flow.Ports
                
         }
 
-        public override IUnitPort CompatiblePort(IUnit unit)
+        public override IUnitPort CompatiblePort(ILogicNode LogicNode)
         {
-            if (unit == this.Unit) return null;
+            if (LogicNode == this.LogicNode) return null;
 
-            return unit.CompatibleValueOutput(Type);
+            return LogicNode.CompatibleValueOutput(Type);
         }
     }
 }

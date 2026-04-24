@@ -1,6 +1,6 @@
 using System;
 
-namespace VisualScript.Core.EditorBinding
+namespace IoTLogic.Core.EditorBinding
 {
     [AttributeUsage(AttributeTargets.All, AllowMultiple = true, Inherited = true)]
     public sealed class RenamedFromAttribute : Attribute

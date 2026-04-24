@@ -1,20 +1,20 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VisualScript.Core.Utities;
-using VisualScript.Flow.Connections;
+using IoTLogic.Core.Utities;
+using IoTLogic.Flow.Connections;
 
-namespace VisualScript.Flow.Ports
+namespace IoTLogic.Flow.Ports
 {
     public sealed class ControlOutput : UnitPort<ControlInput, IUnitInputPort, ControlConnection>, IUnitControlPort, IUnitOutputPort
     {
         public ControlOutput(string key) : base(key) { }
 
-        public override IEnumerable<ControlConnection> ValidConnections => Unit?.Graph?.ControlConnections.WithSource(this) ?? Enumerable.Empty<ControlConnection>();
+        public override IEnumerable<ControlConnection> ValidConnections => LogicNode?.Graph?.ControlConnections.WithSource(this) ?? Enumerable.Empty<ControlConnection>();
 
-        public override IEnumerable<InvalidConnection> InvalidConnections => Unit?.Graph?.InvalidConnections.WithSource(this) ?? Enumerable.Empty<InvalidConnection>();
+        public override IEnumerable<InvalidConnection> InvalidConnections => LogicNode?.Graph?.InvalidConnections.WithSource(this) ?? Enumerable.Empty<InvalidConnection>();
 
         public override IEnumerable<ControlInput> ValidConnectedPorts => ValidConnections.Select(c => c.Destination);
 
@@ -33,7 +33,7 @@ namespace VisualScript.Flow.Ports
 
         public bool Predictable(Recursion recursion)
         {
-            if (Unit.IsControlRoot)
+            if (LogicNode.IsControlRoot)
             {
                 return true;
             }
@@ -43,7 +43,7 @@ namespace VisualScript.Flow.Ports
                 return false;
             }
 
-            var isPredictable = Unit.Relations.WithDestination(this).Where(r => r.Source is ControlInput).All(r => ((ControlInput)r.Source).Predictable(recursion));
+            var isPredictable = LogicNode.Relations.WithDestination(this).Where(r => r.Source is ControlInput).All(r => ((ControlInput)r.Source).Predictable(recursion));
             recursion?.Exit(this);
             return isPredictable;
         }
@@ -57,16 +57,16 @@ namespace VisualScript.Flow.Ports
                     throw new NotSupportedException();
                 }
 
-                if (Unit.IsControlRoot)
+                if (LogicNode.IsControlRoot)
                 {
                     return true;
                 }
 
-                return Unit.Relations.WithDestination(this).Where(r => r.Source is ControlInput).Any(r => ((ControlInput)r.Source).CouldBeEntered);
+                return LogicNode.Relations.WithDestination(this).Where(r => r.Source is ControlInput).Any(r => ((ControlInput)r.Source).CouldBeEntered);
             }
         }
 
-        public ControlConnection Connection => Unit.Graph?.ControlConnections.SingleOrDefaultWithSource(this);
+        public ControlConnection Connection => LogicNode.Graph?.ControlConnections.SingleOrDefaultWithSource(this);
 
         public override bool HasValidConnection => Connection != null;
 
@@ -82,7 +82,7 @@ namespace VisualScript.Flow.Ports
 
             source.Disconnect();
 
-            Unit.Graph.ControlConnections.Add(new ControlConnection(source, destination));
+            LogicNode.Graph.ControlConnections.Add(new ControlConnection(source, destination));
         }
 
         public override void ConnectToInvalid(IUnitInputPort port)
@@ -96,7 +96,7 @@ namespace VisualScript.Flow.Ports
 
             if (connection != null)
             {
-                Unit.Graph.ControlConnections.Remove(connection);
+                LogicNode.Graph.ControlConnections.Remove(connection);
             }
         }
 
@@ -105,10 +105,10 @@ namespace VisualScript.Flow.Ports
             DisconnectInvalid(this, port);
         }
 
-        public override IUnitPort CompatiblePort(IUnit unit)
+        public override IUnitPort CompatiblePort(ILogicNode LogicNode)
         {
-            if (unit == this.Unit) return null;
-            return unit.ControlInputs.FirstOrDefault();
+            if (LogicNode == this.LogicNode) return null;
+            return LogicNode.ControlInputs.FirstOrDefault();
         }
     }
 }

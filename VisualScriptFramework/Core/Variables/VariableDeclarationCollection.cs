@@ -1,13 +1,13 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VisualScript.Core.Collections;
+using IoTLogic.Core.Collections;
 
-namespace VisualScript.Core.Variables
+namespace IoTLogic.Core.Variables
 {
     //[SerializationVersion("A")]
     public sealed class VariableDeclarationCollection : KeyedCollection<string, VariableDeclaration>, IKeyedCollection<string, VariableDeclaration>

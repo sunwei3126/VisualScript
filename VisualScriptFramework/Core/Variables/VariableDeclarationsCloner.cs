@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VisualScript.Core.Reflection;
+using IoTLogic.Core.Reflection;
 
-namespace VisualScript.Core.Variables
+namespace IoTLogic.Core.Variables
 {
     // Variable declarations are cloned for every graph instantiation, it's worth speeding it up.
 

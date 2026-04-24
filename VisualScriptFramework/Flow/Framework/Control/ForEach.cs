@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Collections;
-using VisualScript.Flow.Ports;
+using IoTLogic.Flow.Ports;
 
-namespace VisualScriptFramework.Flow.Framework
+namespace IoTLogic.Flow.Framework
 {
     public class ForEach: LoopUnit
     {
@@ -47,7 +47,7 @@ namespace VisualScriptFramework.Flow.Framework
             }
         }
 
-        private int Start(VisualScript.Flow.Flow flow, out IEnumerator enumerator, out IDictionaryEnumerator dictionaryEnumerator, out int currentIndex)
+        private int Start(IoTLogic.Flow.Flow flow, out IEnumerator enumerator, out IDictionaryEnumerator dictionaryEnumerator, out int currentIndex)
         {
             if(dictionary)
             {
@@ -63,7 +63,7 @@ namespace VisualScriptFramework.Flow.Framework
             return flow.EnterLoop();
         }
 
-        private bool MoveNext(VisualScript.Flow.Flow flow, IEnumerator enumerator, IDictionaryEnumerator dictionaryEnumerator, ref int currentIndex)
+        private bool MoveNext(IoTLogic.Flow.Flow flow, IEnumerator enumerator, IDictionaryEnumerator dictionaryEnumerator, ref int currentIndex)
         {
             var result = enumerator.MoveNext();
             if(result)
@@ -83,7 +83,7 @@ namespace VisualScriptFramework.Flow.Framework
             }
             return result;
         }
-        protected override ControlOutput Loop(VisualScript.Flow.Flow flow)
+        protected override ControlOutput Loop(IoTLogic.Flow.Flow flow)
         {
             var loop = Start(flow, out var enumerator, out var dictionaryEnumerator, out var currentIndex);
 
@@ -109,7 +109,7 @@ namespace VisualScriptFramework.Flow.Framework
            
         }
 
-        protected override IEnumerator LoopCoroutine(VisualScript.Flow.Flow flow)
+        protected override IEnumerator LoopCoroutine(IoTLogic.Flow.Flow flow)
         {
             var loop = Start(flow, out var enumerator, out var dictionaryEnumerator, out var currentIndex);
             var stack = flow.PreserveStack();

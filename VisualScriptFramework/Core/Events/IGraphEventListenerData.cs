@@ -1,6 +1,6 @@
-﻿using VisualScript.Core.Graph;
+using IoTLogic.Core.Graph;
 
-namespace VisualScript.Core.Events
+namespace IoTLogic.Core.Events
 {
     public interface IGraphEventListenerData : IGraphData
     {

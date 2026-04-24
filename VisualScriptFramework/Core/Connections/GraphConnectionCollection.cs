@@ -1,8 +1,8 @@
-﻿using System;
-using VisualScript.Core.Collections;
-using VisualScript.Core.Graph;
+using System;
+using IoTLogic.Core.Collections;
+using IoTLogic.Core.Graph;
 
-namespace VisualScript.Core.Connections
+namespace IoTLogic.Core.Connections
 {
     public class GraphConnectionCollection<TConnection, TSource, TDestination> :
          ConnectionCollectionBase<TConnection, TSource, TDestination, GraphElementCollection<TConnection>>,

@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using VisualScript.Core.Reflection;
+using IoTLogic.Core.Reflection;
 
-namespace VisualScript.Core.Variables
+namespace IoTLogic.Core.Variables
 {
     //[SerializationVersion("A")]
     public sealed class VariableDeclarations : IEnumerable<VariableDeclaration>, ISpecifiesCloner

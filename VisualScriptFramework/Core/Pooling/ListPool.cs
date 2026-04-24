@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 
-namespace VisualScript.Core.Pooling
+namespace IoTLogic.Core.Pooling
 {
     public static class ListPool<T>
     {

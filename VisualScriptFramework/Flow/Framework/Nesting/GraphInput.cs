@@ -1,16 +1,16 @@
 using System.Linq;
-using VisualScript.Core.EditorBinding;
-using VisualScript.Flow.Ports;
+using IoTLogic.Core.EditorBinding;
+using IoTLogic.Flow.Ports;
 
-namespace VisualScript.Flow.Framework
+namespace IoTLogic.Flow.Framework
 {
     /// <summary>
-    /// Fetches input values from the parent super unit for this graph.
+    /// Fetches input values from the parent super LogicNode for this graph.
     /// </summary>
     //[UnitCategory("Nesting")]
     //[UnitOrder(1)]
     //[UnitTitle("Input")]
-    public sealed class GraphInput : Unit
+    public sealed class GraphInput : LogicNode
     {
         public override bool CanDefine => Graph != null;
 
@@ -30,7 +30,7 @@ namespace VisualScript.Flow.Framework
 
                 ValueOutput(type, key, (flow) =>
                 {
-                    var superUnit = flow.stack.GetParent<SubgraphUnit>();
+                    var superUnit = flow.stack.GetParent<SubgraphLogicNode>();
 
                     if (flow.enableDebug)
                     {

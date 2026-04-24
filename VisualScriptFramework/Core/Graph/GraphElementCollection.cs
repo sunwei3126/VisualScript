@@ -1,8 +1,8 @@
-﻿using System;
-using VisualScript.Core.Pooling;
-using VisualScript.Core.Collections;
+using System;
+using IoTLogic.Core.Pooling;
+using IoTLogic.Core.Collections;
 
-namespace VisualScript.Core.Graph
+namespace IoTLogic.Core.Graph
 {
     public sealed class GraphElementCollection<TElement> : GuidCollection<TElement>, IGraphElementCollection<TElement>, IProxyableNotifyCollectionChanged<TElement>
          where TElement : IGraphElement

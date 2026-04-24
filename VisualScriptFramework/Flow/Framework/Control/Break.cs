@@ -1,9 +1,9 @@
-﻿using VisualScript.Flow;
-using VisualScript.Flow.Ports;
+using IoTLogic.Flow;
+using IoTLogic.Flow.Ports;
 
-namespace VisualScriptFramework.Flow.Framework
+namespace IoTLogic.Flow.Framework
 {
-    public class Break: Unit
+    public class Break: LogicNode
     {
         public ControlInput enter { get; set; }
 
@@ -12,7 +12,7 @@ namespace VisualScriptFramework.Flow.Framework
             enter = ControlInput(nameof(enter), Operation);
         }
 
-        public ControlOutput Operation(VisualScript.Flow.Flow flow)
+        public ControlOutput Operation(IoTLogic.Flow.Flow flow)
         {
             flow.BreakLoop();
             return null;

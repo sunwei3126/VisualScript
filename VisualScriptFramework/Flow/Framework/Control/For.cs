@@ -1,12 +1,12 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VisualScript.Flow.Ports;
+using IoTLogic.Flow.Ports;
 
-namespace VisualScriptFramework.Flow.Framework
+namespace IoTLogic.Flow.Framework
 {
     public sealed class For: LoopUnit
     {
@@ -32,7 +32,7 @@ namespace VisualScriptFramework.Flow.Framework
             Requirement(step, enter);
             Assignment(enter, currentIndex);
         }
-        private int Start(VisualScript.Flow.Flow flow, out int currentIndex, out int lastIndex, out bool ascending)
+        private int Start(IoTLogic.Flow.Flow flow, out int currentIndex, out int lastIndex, out bool ascending)
         {
             var firstIndex = flow.GetValue<int>(this.firstIndex);
             lastIndex = flow.GetValue<int>(this.lastIndex);
@@ -42,7 +42,7 @@ namespace VisualScriptFramework.Flow.Framework
             flow.SetValue(this.currentIndex, currentIndex);
             return flow.EnterLoop();
         }
-        protected override ControlOutput Loop(VisualScript.Flow.Flow flow)
+        protected override ControlOutput Loop(IoTLogic.Flow.Flow flow)
         {
             var loop = Start(flow, out int currentIndex, out int lastIndex, out bool ascending);
             if(!IsStepValueZero())
@@ -65,7 +65,7 @@ namespace VisualScriptFramework.Flow.Framework
             return exit;
         }
 
-        protected override IEnumerator LoopCoroutine(VisualScript.Flow.Flow flow)
+        protected override IEnumerator LoopCoroutine(IoTLogic.Flow.Flow flow)
         {
             var loop = Start(flow, out int currentIndex, out int lastIndex, out bool ascending);
             var stack = flow.PreserveStack();
@@ -94,7 +94,7 @@ namespace VisualScriptFramework.Flow.Framework
             }
         }
 
-        private void MoveNext(VisualScript.Flow.Flow flow, ref int currentIndex)
+        private void MoveNext(IoTLogic.Flow.Flow flow, ref int currentIndex)
         {
             currentIndex += flow.GetValue<int>(step);
             flow.SetValue(this.currentIndex, currentIndex);
@@ -105,7 +105,7 @@ namespace VisualScriptFramework.Flow.Framework
             var isDefaultZero = !step.HasValidConnection && (int)DefaultValues[step.Key] == 0;
             var isConnectedToLiteralZero = false;
 
-            if(step.HasValidConnection && step.Connection.Source.Unit is Literal literal)
+            if(step.HasValidConnection && step.Connection.Source.LogicNode is Literal literal)
             {
                 if(Convert.ToInt32(literal.value) == 0)
                 {

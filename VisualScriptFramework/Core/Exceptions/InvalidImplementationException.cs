@@ -1,6 +1,6 @@
 using System;
 
-namespace VisualScript.Core.Exceptions
+namespace IoTLogic.Core.Exceptions
 {
     public class InvalidImplementationException : Exception
     {

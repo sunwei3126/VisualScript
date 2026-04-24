@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("VisualScriptFramework")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("IoTLogicFramework")]
+[assembly: AssemblyDescription("IoT Visual Logic Framework")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("VisualScriptFramework")]
+[assembly: AssemblyProduct("IoTLogicFramework")]
 [assembly: AssemblyCopyright("Copyright ©  2023")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

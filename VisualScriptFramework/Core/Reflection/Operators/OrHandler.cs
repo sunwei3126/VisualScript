@@ -1,6 +1,6 @@
 #pragma warning disable 675
 
-namespace VisualScript.Core.Reflection
+namespace IoTLogic.Core.Reflection
 {
     public class OrHandler : BinaryOperatorHandler
     {

@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using VisualScript.Core.Pooling;
+using IoTLogic.Core.Pooling;
 
-namespace VisualScript.Core.Graph
+namespace IoTLogic.Core.Graph
 {
     public sealed class GraphStack : GraphPointer, IPoolable, IDisposable
     {

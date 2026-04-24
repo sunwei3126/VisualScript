@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Linq;
-using VisualScript.Flow.Ports;
+using IoTLogic.Flow.Ports;
 
-namespace VisualScript.Flow.Connections
+namespace IoTLogic.Flow.Connections
 {
     public sealed class InvalidConnection : UnitConnection<IUnitOutputPort, IUnitInputPort>, IUnitConnection
     {
@@ -14,8 +14,8 @@ namespace VisualScript.Flow.Connections
         public override void AfterRemove()
         {
             base.AfterRemove();
-            Source.Unit.RemoveUnconnectedInvalidPorts();
-            Destination.Unit.RemoveUnconnectedInvalidPorts();
+            Source.LogicNode.RemoveUnconnectedInvalidPorts();
+            Destination.LogicNode.RemoveUnconnectedInvalidPorts();
         }
 
         #region Ports

@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using VisualScript.Core.Utities;
+using IoTLogic.Core.Utities;
 
-namespace VisualScript.Core.Connections
+namespace IoTLogic.Core.Connections
 {
     public class ConnectionCollectionBase<TConnection, TSource, TDestination, TCollection> : IConnectionCollection<TConnection, TSource, TDestination>
           where TConnection : IConnection<TSource, TDestination>

@@ -1,14 +1,14 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VisualScript.Flow;
-using VisualScript.Flow.Ports;
+using IoTLogic.Flow;
+using IoTLogic.Flow.Ports;
 
-namespace VisualScriptFramework.Flow.Framework
+namespace IoTLogic.Flow.Framework
 {
-    public sealed class If: Unit, IBranchUnit
+    public sealed class If: LogicNode, IBranchUnit
     {
          public ControlInput enter { get; private set; }
 
@@ -31,7 +31,7 @@ namespace VisualScriptFramework.Flow.Framework
             Succession(enter, ifFalse);
         }
 
-        public ControlOutput Enter(VisualScript.Flow.Flow flow)
+        public ControlOutput Enter(IoTLogic.Flow.Flow flow)
         {
             return flow.GetValue<bool>(condition) ? ifTrue : ifFalse;
         }
