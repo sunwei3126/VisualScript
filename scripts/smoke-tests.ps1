@@ -24,6 +24,29 @@ function Assert-Equal($Actual, $Expected, [string]$Message)
     }
 }
 
+function Assert-Match([string]$Actual, [string]$Pattern, [string]$Message)
+{
+    if ($Actual -notmatch $Pattern)
+    {
+        throw "$Message Pattern: '$Pattern' Actual: '$Actual'."
+    }
+}
+
+function Assert-ThrowsLike([scriptblock]$Action, [string]$Pattern, [string]$Message)
+{
+    try
+    {
+        & $Action
+    }
+    catch
+    {
+        Assert-Match $_.Exception.Message $Pattern $Message
+        return
+    }
+
+    throw "$Message Expected an exception matching '$Pattern'."
+}
+
 function New-TemperatureGraph
 {
     $graph = [IoTLogic.Flow.LogicGraph]::new()
@@ -69,6 +92,7 @@ function New-TemperatureGraph
     $threshold.DefaultValues["threshold"] = 30.0
     $sendCommand.DefaultValues["commandName"] = "TurnOnAC"
     $logAbove.DefaultValues["message"] = "High temperature detected: {0} C. AC command queued."
+    $logAbove.DefaultValues["level"] = [IoTLogic.Flow.Nodes.Action.LogLevel]::Warning
     $logNormal.DefaultValues["message"] = "Temperature normal: {0:F1} C"
 
     return $graph
@@ -128,6 +152,102 @@ Step "graph execution" {
     {
         $runner.Dispose()
     }
+}
+
+Step "json export and round-trip" {
+    $graph = New-TemperatureGraph
+    $document = [IoTLogic.Flow.Serialization.LogicGraphDocumentCompiler]::Export($graph)
+
+    Assert-Equal $document.SchemaVersion 1 "Unexpected schema version."
+    Assert-Equal $document.Nodes.Count 6 "Unexpected node count in exported document."
+    Assert-Equal $document.Edges.Count 7 "Unexpected edge count in exported document."
+    Assert-Equal $document.Nodes[0].Type "nodes/trigger/device-event-trigger" "Unexpected exported node type key."
+
+    $logAboveDocument = $document.Nodes | Where-Object { $_.Defaults["message"] -eq "High temperature detected: {0} C. AC command queued." } | Select-Object -First 1
+    Assert-True ($null -ne $logAboveDocument) "Expected high-temperature log node in exported document."
+    Assert-Equal $logAboveDocument.Defaults["level"]['$kind'] "enum" "Enum defaults must be tagged."
+    Assert-Equal $logAboveDocument.Defaults["level"]["type"] "IoTLogic.Flow.Nodes.Action.LogLevel" "Enum default type should be serialized."
+    Assert-Equal $logAboveDocument.Defaults["level"]["value"] "Warning" "Enum default value should be serialized."
+
+    $jsonPath = Join-Path $env:TEMP "iot-logic-graph.json"
+    [IoTLogic.Flow.Serialization.LogicGraphDocumentSerializer]::Save($jsonPath, $document)
+    $json = Get-Content -Raw $jsonPath
+
+    Assert-Match $json '"schemaVersion"\s*:\s*1' "Saved JSON must contain schemaVersion."
+    Assert-Match $json '"type"\s*:\s*"nodes/trigger/device-event-trigger"' "Saved JSON must contain stable node type keys."
+
+    $reloadedDocument = [IoTLogic.Flow.Serialization.LogicGraphDocumentSerializer]::Load($jsonPath)
+    $reloadedGraph = [IoTLogic.Flow.Serialization.LogicGraphDocumentCompiler]::Compile($reloadedDocument)
+
+    Assert-Equal $reloadedGraph.Title "Temperature alarm" "Graph title should survive JSON round-trip."
+    Assert-Equal $reloadedGraph.ControlConnections.Count 4 "Control connection count should survive JSON round-trip."
+    Assert-Equal $reloadedGraph.ValueConnections.Count 3 "Value connection count should survive JSON round-trip."
+
+    $registry = [IoTLogic.Flow.Engine.InMemoryDeviceRegistry]::new()
+    $device = $registry.AddDevice("sensor-001", "TemperatureSensor", "temp sensor")
+    $device.SetProperty("temperature", 35.5) | Out-Null
+    $runner = [IoTLogic.Flow.Engine.LogicGraphRunner]::new($reloadedGraph, "json-roundtrip")
+
+    try
+    {
+        $runner.Start()
+        $highEvent = [IoTLogic.Domain.DeviceEvent]::new(
+            "sensor-001",
+            "TemperatureSensor",
+            "TemperatureReport",
+            35.5,
+            [DateTime]::UtcNow)
+        $highContext = [IoTLogic.Domain.TriggerContext]::new($highEvent, $device)
+        $highResult = $runner.Execute($highContext)
+        Assert-True $highResult.Succeeded "Reloaded graph should execute successfully."
+        Assert-Equal $highResult.Commands.Count 1 "Reloaded graph should still enqueue one command for a high temperature."
+
+        $device.SetProperty("temperature", 22.0) | Out-Null
+        $lowEvent = [IoTLogic.Domain.DeviceEvent]::new(
+            "sensor-001",
+            "TemperatureSensor",
+            "TemperatureReport",
+            22.0,
+            [DateTime]::UtcNow)
+        $lowContext = [IoTLogic.Domain.TriggerContext]::new($lowEvent, $device)
+        $lowResult = $runner.Execute($lowContext)
+        Assert-True $lowResult.Succeeded "Reloaded graph should execute successfully for low temperature."
+        Assert-Equal $lowResult.Commands.Count 0 "Reloaded graph should not enqueue commands for a low temperature."
+    }
+    finally
+    {
+        $runner.Dispose()
+    }
+}
+
+Step "json validation failures" {
+    $unknownType = [IoTLogic.Flow.Serialization.LogicGraphDocument]::new()
+    $unknownType.Nodes.Add([IoTLogic.Flow.Serialization.LogicGraphNodeDocument]::new())
+    $unknownType.Nodes[0].Id = [Guid]::NewGuid().ToString("D")
+    $unknownType.Nodes[0].Type = "nodes/unknown/missing"
+    Assert-ThrowsLike { [IoTLogic.Flow.Serialization.LogicGraphDocumentCompiler]::Compile($unknownType) } "unknown node type" "Unknown node types must fail."
+
+    $duplicateId = [IoTLogic.Flow.Serialization.LogicGraphDocumentCompiler]::Export((New-TemperatureGraph))
+    $duplicateId.Nodes[1].Id = $duplicateId.Nodes[0].Id
+    Assert-ThrowsLike { [IoTLogic.Flow.Serialization.LogicGraphDocumentCompiler]::Compile($duplicateId) } "duplicate node id" "Duplicate node ids must fail."
+
+    $missingPort = [IoTLogic.Flow.Serialization.LogicGraphDocumentCompiler]::Export((New-TemperatureGraph))
+    $missingPort.Edges[0].ToPort = "missingPort"
+    Assert-ThrowsLike { [IoTLogic.Flow.Serialization.LogicGraphDocumentCompiler]::Compile($missingPort) } "unknown port" "Missing ports must fail."
+
+    $wrongVersion = [IoTLogic.Flow.Serialization.LogicGraphDocumentCompiler]::Export((New-TemperatureGraph))
+    $wrongVersion.SchemaVersion = 99
+    Assert-ThrowsLike { [IoTLogic.Flow.Serialization.LogicGraphDocumentCompiler]::Compile($wrongVersion) } "schema version" "Mismatched schema versions must fail."
+
+    $unsupportedValue = [IoTLogic.Flow.Serialization.LogicGraphDocumentCompiler]::Export((New-TemperatureGraph))
+    $unsupportedValue.Variables.Add([IoTLogic.Flow.Serialization.LogicGraphVariableDocument]::new())
+    $unsupportedValue.Variables[-1].Name = "bad"
+    $unsupportedValue.Variables[-1].Value = [Newtonsoft.Json.Linq.JArray]::new()
+    Assert-ThrowsLike { [IoTLogic.Flow.Serialization.LogicGraphDocumentCompiler]::Compile($unsupportedValue) } "unsupported" "Unsupported JSON value shapes must fail."
+
+    $subgraphGraph = [IoTLogic.Flow.LogicGraph]::new()
+    $subgraphGraph.LogicNodes.Add([IoTLogic.Flow.SubgraphLogicNode]::WithInputOutput())
+    Assert-ThrowsLike { [IoTLogic.Flow.Serialization.LogicGraphDocumentCompiler]::Export($subgraphGraph) } "subgraph" "Subgraphs must be rejected by JSON export."
 }
 
 Write-Output "Smoke tests passed."

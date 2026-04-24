@@ -1,0 +1,329 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FE085DBE-07DC-4169-BF72-68F7D01FA155}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>VisualScriptFramework</RootNamespace>
+    <AssemblyName>VisualScriptFramework</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>$(NuGetPackageRoot)newtonsoft.json\13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\Cloning\Cloner.cs" />
+    <Compile Include="Core\Cloning\Cloners\ArrayCloner.cs" />
+    <Compile Include="Core\Cloning\Cloners\DictionaryCloner.cs" />
+    <Compile Include="Core\Cloning\Cloners\EnumerableCloner.cs" />
+    <Compile Include="Core\Cloning\Cloners\FieldsCloner.cs" />
+    <Compile Include="Core\Cloning\Cloners\ListCloner.cs" />
+    <Compile Include="Core\Cloning\Cloners\ReflectedCloner.cs" />
+    <Compile Include="Core\Cloning\Cloning.cs" />
+    <Compile Include="Core\Cloning\CloningContext.cs" />
+    <Compile Include="Core\Cloning\ICloner.cs" />
+    <Compile Include="Core\Cloning\ISpecifiesCloner.cs" />
+    <Compile Include="Core\Collections\GuidCollection.cs" />
+    <Compile Include="Core\Collections\IKeyedCollection.cs" />
+    <Compile Include="Core\Collections\IMergedCollection.cs" />
+    <Compile Include="Core\Collections\INotifiedCollectionItem.cs" />
+    <Compile Include="Core\Collections\INotifyCollectionChanged.cs" />
+    <Compile Include="Core\Collections\IProxyableNotifyCollectionChanged.cs" />
+    <Compile Include="Core\Collections\MergedKeyedCollection.cs" />
+    <Compile Include="Core\Collections\NoAllocEnumerator.cs" />
+    <Compile Include="Core\Collections\VariantCollection.cs" />
+    <Compile Include="Core\Collections\VariantKeyedCollection.cs" />
+    <Compile Include="Core\Connections\ConnectionCollection.cs" />
+    <Compile Include="Core\Connections\ConnectionCollectionBase.cs" />
+    <Compile Include="Core\Connections\GraphConnectionCollection.cs" />
+    <Compile Include="Core\Connections\IConnection.cs" />
+    <Compile Include="Core\Connections\IConnectionCollection.cs" />
+    <Compile Include="Core\Connections\InvalidConnectionException.cs" />
+    <Compile Include="Core\EditorBinding\AllowsNullAttribute.cs" />
+    <Compile Include="Core\EditorBinding\EditorTimeBinding.cs" />
+    <Compile Include="Core\EditorBinding\PredictableAttribute.cs" />
+    <Compile Include="Core\EditorBinding\RenamedAssemblyAttribute.cs" />
+    <Compile Include="Core\EditorBinding\RenamedFromAttribute.cs" />
+    <Compile Include="Core\EditorBinding\RenamedNamespaceAttribute.cs" />
+    <Compile Include="Core\Ensure\Ensure.cs" />
+    <Compile Include="Core\Ensure\EnsureThat.Comparables.cs" />
+    <Compile Include="Core\Ensure\EnsureThat.cs" />
+    <Compile Include="Core\Ensure\EnsureThat.NullableValueTypes.cs" />
+    <Compile Include="Core\Ensure\EnsureThat.Objects.cs" />
+    <Compile Include="Core\Ensure\EnsureThat.Types.cs" />
+    <Compile Include="Core\Ensure\ExceptionMessages.cs" />
+    <Compile Include="Core\Ensure\Extensions\XComparable.cs" />
+    <Compile Include="Core\Ensure\Extensions\XString.cs" />
+    <Compile Include="Core\Events\IGraphEventListener.cs" />
+    <Compile Include="Core\Events\IGraphEventListenerData.cs" />
+    <Compile Include="Core\Exceptions\DebugUtility.cs" />
+    <Compile Include="Core\Exceptions\InvalidConversionException.cs" />
+    <Compile Include="Core\Exceptions\InvalidImplementationException.cs" />
+    <Compile Include="Core\Exceptions\UnexpectedEnumValueException.cs" />
+    <Compile Include="Core\Graph\Graph.cs" />
+    <Compile Include="Core\Graph\GraphData.cs" />
+    <Compile Include="Core\Graph\GraphDebugData.cs" />
+    <Compile Include="Core\Graph\GraphElement.cs" />
+    <Compile Include="Core\Graph\GraphElementCollection.cs" />
+    <Compile Include="Core\Graph\GraphInstances.cs" />
+    <Compile Include="Core\Graph\GraphNest.cs" />
+    <Compile Include="Core\Graph\GraphPointer.cs" />
+    <Compile Include="Core\Graph\GraphPointerException.cs" />
+    <Compile Include="Core\Graph\GraphReference.cs" />
+    <Compile Include="Core\Graph\GraphSource.cs" />
+    <Compile Include="Core\Graph\GraphStack.cs" />
+    <Compile Include="Core\Graph\IGraph.cs" />
+    <Compile Include="Core\Graph\IGraphData.cs" />
+    <Compile Include="Core\Graph\IGraphDebugData.cs" />
+    <Compile Include="Core\Graph\IGraphElement.cs" />
+    <Compile Include="Core\Graph\IGraphElementCollection.cs" />
+    <Compile Include="Core\Graph\IGraphElementData.cs" />
+    <Compile Include="Core\Graph\IGraphElementDebugData.cs" />
+    <Compile Include="Core\Graph\IGraphElementWithData.cs" />
+    <Compile Include="Core\Graph\IGraphElementWithDebugData.cs" />
+    <Compile Include="Core\Graph\IGraphItem.cs" />
+    <Compile Include="Core\Graph\IGraphNest.cs" />
+    <Compile Include="Core\Graph\IGraphNester.cs" />
+    <Compile Include="Core\Graph\IGraphNesterElement.cs" />
+    <Compile Include="Core\Graph\IGraphParent.cs" />
+    <Compile Include="Core\Graph\IGraphParentElement.cs" />
+    <Compile Include="Core\Graph\IGraphRoot.cs" />
+    <Compile Include="Core\Graph\MergedGraphElementCollection.cs" />
+    <Compile Include="Core\Groups\GraphGroup.cs" />
+    <Compile Include="Core\Machines\IMachine.cs" />
+    <Compile Include="Core\Macros\IMacro.cs" />
+    <Compile Include="Core\Macros\Macro.cs" />
+    <Compile Include="Core\Pooling\GenericPool.cs" />
+    <Compile Include="Core\Pooling\HashSetPool.cs" />
+    <Compile Include="Core\Pooling\IPoolable.cs" />
+    <Compile Include="Core\Pooling\ListPool.cs" />
+    <Compile Include="Core\Reflection\AttributeUtility.cs" />
+    <Compile Include="Core\Reflection\ConversionUtility.cs" />
+    <Compile Include="Core\Reflection\GenericClosingException.cs" />
+    <Compile Include="Core\Reflection\IAttributeProvider.cs" />
+    <Compile Include="Core\Reflection\IPrewarmable.cs" />
+    <Compile Include="Core\Reflection\Member.cs" />
+    <Compile Include="Core\Reflection\MemberUtility.cs" />
+    <Compile Include="Core\Reflection\Operators\AdditionHandler.cs" />
+    <Compile Include="Core\Reflection\Operators\AmbiguousOperatorException.cs" />
+    <Compile Include="Core\Reflection\Operators\AndHandler.cs" />
+    <Compile Include="Core\Reflection\Operators\BinaryOperator.cs" />
+    <Compile Include="Core\Reflection\Operators\BinaryOperatorHandler.cs" />
+    <Compile Include="Core\Reflection\Operators\DecrementHandler.cs" />
+    <Compile Include="Core\Reflection\Operators\DivisionHandler.cs" />
+    <Compile Include="Core\Reflection\Operators\EqualityHandler.cs" />
+    <Compile Include="Core\Reflection\Operators\ExclusiveOrHandler.cs" />
+    <Compile Include="Core\Reflection\Operators\GreaterThanHandler.cs" />
+    <Compile Include="Core\Reflection\Operators\GreaterThanOrEqualHandler.cs" />
+    <Compile Include="Core\Reflection\Operators\IncrementHandler.cs" />
+    <Compile Include="Core\Reflection\Operators\InequalityHandler.cs" />
+    <Compile Include="Core\Reflection\Operators\InvalidOperatorException.cs" />
+    <Compile Include="Core\Reflection\Operators\LeftShiftHandler.cs" />
+    <Compile Include="Core\Reflection\Operators\LessThanHandler.cs" />
+    <Compile Include="Core\Reflection\Operators\LessThanOrEqualHandler.cs" />
+    <Compile Include="Core\Reflection\Operators\LogicalNegationHandler.cs" />
+    <Compile Include="Core\Reflection\Operators\ModuloHandler.cs" />
+    <Compile Include="Core\Reflection\Operators\MultiplicationHandler.cs" />
+    <Compile Include="Core\Reflection\Operators\NumericNegationHandler.cs" />
+    <Compile Include="Core\Reflection\Operators\OperatorException.cs" />
+    <Compile Include="Core\Reflection\Operators\OperatorHandler.cs" />
+    <Compile Include="Core\Reflection\Operators\OperatorUtility.cs" />
+    <Compile Include="Core\Reflection\Operators\OrHandler.cs" />
+    <Compile Include="Core\Reflection\Operators\PlusHandler.cs" />
+    <Compile Include="Core\Reflection\Operators\RightShiftHandler.cs" />
+    <Compile Include="Core\Reflection\Operators\SubtractionHandler.cs" />
+    <Compile Include="Core\Reflection\Operators\UnaryOperator.cs" />
+    <Compile Include="Core\Reflection\Operators\UnaryOperatorHandler.cs" />
+    <Compile Include="Core\Reflection\Optimization\Action_5.cs" />
+    <Compile Include="Core\Reflection\Optimization\Action_6.cs" />
+    <Compile Include="Core\Reflection\Optimization\Func_5.cs" />
+    <Compile Include="Core\Reflection\Optimization\Func_6.cs" />
+    <Compile Include="Core\Reflection\Optimization\InstanceActionInvokerBase.cs" />
+    <Compile Include="Core\Reflection\Optimization\InstanceActionInvoker_0.cs" />
+    <Compile Include="Core\Reflection\Optimization\InstanceActionInvoker_1.cs" />
+    <Compile Include="Core\Reflection\Optimization\InstanceActionInvoker_2.cs" />
+    <Compile Include="Core\Reflection\Optimization\InstanceActionInvoker_3.cs" />
+    <Compile Include="Core\Reflection\Optimization\InstanceActionInvoker_4.cs" />
+    <Compile Include="Core\Reflection\Optimization\InstanceActionInvoker_5.cs" />
+    <Compile Include="Core\Reflection\Optimization\InstanceFieldAccessor.cs" />
+    <Compile Include="Core\Reflection\Optimization\InstanceFunctionInvokerBase.cs" />
+    <Compile Include="Core\Reflection\Optimization\InstanceFunctionInvoker_0.cs" />
+    <Compile Include="Core\Reflection\Optimization\InstanceFunctionInvoker_1.cs" />
+    <Compile Include="Core\Reflection\Optimization\InstanceFunctionInvoker_2.cs" />
+    <Compile Include="Core\Reflection\Optimization\InstanceFunctionInvoker_3.cs" />
+    <Compile Include="Core\Reflection\Optimization\InstanceFunctionInvoker_4.cs" />
+    <Compile Include="Core\Reflection\Optimization\InstanceFunctionInvoker_5.cs" />
+    <Compile Include="Core\Reflection\Optimization\InstanceInvokerBase.cs" />
+    <Compile Include="Core\Reflection\Optimization\InstancePropertyAccessor.cs" />
+    <Compile Include="Core\Reflection\Optimization\InvokerBase.cs" />
+    <Compile Include="Core\Reflection\Optimization\IOptimizedAccessor.cs" />
+    <Compile Include="Core\Reflection\Optimization\IOptimizedInvoker.cs" />
+    <Compile Include="Core\Reflection\Optimization\OptimizedReflection.cs" />
+    <Compile Include="Core\Reflection\Optimization\ReflectionFieldAccessor.cs" />
+    <Compile Include="Core\Reflection\Optimization\ReflectionInvoker.cs" />
+    <Compile Include="Core\Reflection\Optimization\ReflectionPropertyAccessor.cs" />
+    <Compile Include="Core\Reflection\Optimization\StaticActionInvokerBase.cs" />
+    <Compile Include="Core\Reflection\Optimization\StaticActionInvoker_0.cs" />
+    <Compile Include="Core\Reflection\Optimization\StaticActionInvoker_1.cs" />
+    <Compile Include="Core\Reflection\Optimization\StaticActionInvoker_2.cs" />
+    <Compile Include="Core\Reflection\Optimization\StaticActionInvoker_3.cs" />
+    <Compile Include="Core\Reflection\Optimization\StaticActionInvoker_4.cs" />
+    <Compile Include="Core\Reflection\Optimization\StaticActionInvoker_5.cs" />
+    <Compile Include="Core\Reflection\Optimization\StaticFieldAccessor.cs" />
+    <Compile Include="Core\Reflection\Optimization\StaticFunctionInvokerBase.cs" />
+    <Compile Include="Core\Reflection\Optimization\StaticFunctionInvoker_0.cs" />
+    <Compile Include="Core\Reflection\Optimization\StaticFunctionInvoker_1.cs" />
+    <Compile Include="Core\Reflection\Optimization\StaticFunctionInvoker_2.cs" />
+    <Compile Include="Core\Reflection\Optimization\StaticFunctionInvoker_3.cs" />
+    <Compile Include="Core\Reflection\Optimization\StaticFunctionInvoker_4.cs" />
+    <Compile Include="Core\Reflection\Optimization\StaticFunctionInvoker_5.cs" />
+    <Compile Include="Core\Reflection\Optimization\StaticInvokerBase.cs" />
+    <Compile Include="Core\Reflection\Optimization\StaticPropertyAccessor.cs" />
+    <Compile Include="Core\Reflection\RuntimeCodebase.cs" />
+    <Compile Include="Core\Reflection\TypeName.cs" />
+    <Compile Include="Core\Reflection\TypeNameDetail.cs" />
+    <Compile Include="Core\Reflection\TypeUtility.cs" />
+    <Compile Include="Core\Utities\Empty.cs" />
+    <Compile Include="Core\Utities\GraphsExceptionUtility.cs" />
+    <Compile Include="Core\Utities\HashUtility.cs" />
+    <Compile Include="Core\Utities\IAnalyticsIdentifiable.cs" />
+    <Compile Include="Core\Utities\IIdentifiable.cs" />
+    <Compile Include="Core\Utities\LinqUtility.cs" />
+    <Compile Include="Core\Utities\Recursion.cs" />
+    <Compile Include="Core\Utities\ReferenceEqualityComparer.cs" />
+    <Compile Include="Core\Utities\StringUtility.cs" />
+    <Compile Include="Core\Variables\IGraphDataWithVariables.cs" />
+    <Compile Include="Core\Variables\IGraphWithVariables.cs" />
+    <Compile Include="Core\Variables\VariableDeclaration.cs" />
+    <Compile Include="Core\Variables\VariableDeclarationCollection.cs" />
+    <Compile Include="Core\Variables\VariableDeclarations.cs" />
+    <Compile Include="Core\Variables\VariableDeclarationsCloner.cs" />
+    <Compile Include="Core\Variables\VariableKind.cs" />
+    <Compile Include="Domain\DeviceCommand.cs" />
+    <Compile Include="Domain\DeviceEvent.cs" />
+    <Compile Include="Domain\DeviceProperty.cs" />
+    <Compile Include="Domain\IDevice.cs" />
+    <Compile Include="Domain\IDeviceRegistry.cs" />
+    <Compile Include="Domain\TriggerContext.cs" />
+    <Compile Include="Flow\Connections\ControlConnection.cs" />
+    <Compile Include="Flow\Connections\InvalidConnection.cs" />
+    <Compile Include="Flow\Connections\ILogicNodeConnection.cs" />
+    <Compile Include="Flow\Connections\ILogicNodeConnectionDebugData.cs" />
+    <Compile Include="Flow\Connections\ILogicNodeRelation.cs" />
+    <Compile Include="Flow\Connections\LogicNodeConnection.cs" />
+    <Compile Include="Flow\Connections\LogicNodeConnectionDebugData.cs" />
+    <Compile Include="Flow\Connections\LogicNodeRelation.cs" />
+    <Compile Include="Flow\Connections\ValueConnection.cs" />
+    <Compile Include="Flow\Engine\ExecutionResult.cs" />
+    <Compile Include="Flow\Engine\InMemoryDeviceRegistry.cs" />
+    <Compile Include="Flow\Engine\LogicGraphMachine.cs" />
+    <Compile Include="Flow\Engine\LogicGraphRunner.cs" />
+    <Compile Include="Flow\Engine\TriggerDispatcher.cs" />
+    <Compile Include="Flow\Flow.cs" />
+    <Compile Include="Flow\LogicGraph.cs" />
+    <Compile Include="Flow\Nodes\Action\LogMessageNode.cs" />
+    <Compile Include="Flow\Nodes\Action\SendCommandNode.cs" />
+    <Compile Include="Flow\Nodes\Condition\CompareConditionNode.cs" />
+    <Compile Include="Flow\Nodes\Condition\ThresholdConditionNode.cs" />
+    <Compile Include="Flow\Nodes\Data\DevicePropertyNode.cs" />
+    <Compile Include="Flow\Nodes\Data\LiteralNode.cs" />
+    <Compile Include="Flow\Nodes\Transform\MapValueNode.cs" />
+    <Compile Include="Flow\Nodes\Transform\UnitConvertNode.cs" />
+    <Compile Include="Flow\Nodes\Trigger\DeviceEventTriggerNode.cs" />
+    <Compile Include="Flow\Nodes\Trigger\TimerTriggerNode.cs" />
+    <Compile Include="Flow\UnitPreservation.cs" />
+    <Compile Include="Flow\LogicGraphData.cs" />
+    <Compile Include="Flow\Framework\Control\Break.cs" />
+    <Compile Include="Flow\Framework\Control\For.cs" />
+    <Compile Include="Flow\Framework\Control\ForEach.cs" />
+    <Compile Include="Flow\Framework\Control\IBranchUnit.cs" />
+    <Compile Include="Flow\Framework\Control\If.cs" />
+    <Compile Include="Flow\Framework\Control\LoopUnit.cs" />
+    <Compile Include="Flow\Framework\Literal.cs" />
+    <Compile Include="Flow\Framework\Logic\And.cs" />
+    <Compile Include="Flow\Framework\Math\Absolute.cs" />
+    <Compile Include="Flow\Framework\Math\Scalar\ScalarAbsolute.cs" />
+    <Compile Include="Flow\Framework\Nesting\GraphInput.cs" />
+    <Compile Include="Flow\Framework\Nesting\GraphOutput.cs" />
+    <Compile Include="Flow\Framework\Variables\IUnifiedVariableUnit.cs" />
+    <Compile Include="Flow\INesterLogicNode.cs" />
+    <Compile Include="Flow\ILogicNode.cs" />
+    <Compile Include="Flow\ILogicNodeDebugData.cs" />
+    <Compile Include="Flow\NesterLogicNode.cs" />
+    <Compile Include="Flow\Ports\ControlInput.cs" />
+    <Compile Include="Flow\Ports\ControlInputDefinition.cs" />
+    <Compile Include="Flow\Ports\ControlOutput.cs" />
+    <Compile Include="Flow\Ports\ControlOutputDefinition.cs" />
+    <Compile Include="Flow\Ports\ControlPortDefinition.cs" />
+    <Compile Include="Flow\Ports\InvalidInput.cs" />
+    <Compile Include="Flow\Ports\InvalidOutput.cs" />
+    <Compile Include="Flow\Ports\ILogicNodeControlPort.cs" />
+    <Compile Include="Flow\Ports\ILogicNodeControlPortDefinition.cs" />
+    <Compile Include="Flow\Ports\ILogicNodeInputPort.cs" />
+    <Compile Include="Flow\Ports\ILogicNodeInputPortDefinition.cs" />
+    <Compile Include="Flow\Ports\ILogicNodeInvalidPort.cs" />
+    <Compile Include="Flow\Ports\ILogicNodeOutputPort.cs" />
+    <Compile Include="Flow\Ports\ILogicNodeOutputPortDefinition.cs" />
+    <Compile Include="Flow\Ports\ILogicNodePort.cs" />
+    <Compile Include="Flow\Ports\ILogicNodePortCollection.cs" />
+    <Compile Include="Flow\Ports\ILogicNodePortDefinition.cs" />
+    <Compile Include="Flow\Ports\ILogicNodeValuePort.cs" />
+    <Compile Include="Flow\Ports\ILogicNodeValuePortDefinition.cs" />
+    <Compile Include="Flow\Ports\MissingValuePortInputException.cs" />
+    <Compile Include="Flow\Ports\LogicNodePort.cs" />
+    <Compile Include="Flow\Ports\LogicNodePortCollection.cs" />
+    <Compile Include="Flow\Ports\LogicNodePortDefinition.cs" />
+    <Compile Include="Flow\Ports\ValueInput.cs" />
+    <Compile Include="Flow\Ports\ValueInputDefinition.cs" />
+    <Compile Include="Flow\Ports\ValueOutput.cs" />
+    <Compile Include="Flow\Ports\ValueOutputDefinition.cs" />
+    <Compile Include="Flow\Ports\ValuePortDefinition.cs" />
+    <Compile Include="Flow\Serialization\LogicGraphDocument.cs" />
+    <Compile Include="Flow\Serialization\LogicGraphDocumentCompiler.cs" />
+    <Compile Include="Flow\Serialization\LogicGraphDocumentSerializer.cs" />
+    <Compile Include="Flow\Serialization\LogicGraphValueCodec.cs" />
+    <Compile Include="Flow\Serialization\LogicNodeTypeRegistry.cs" />
+    <Compile Include="Flow\SubgraphLogicNode.cs" />
+    <Compile Include="Flow\LogicNode.cs" />
+    <Compile Include="Flow\UnitPortDefinitionCollection.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

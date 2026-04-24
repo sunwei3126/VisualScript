@@ -7,6 +7,7 @@ using IoTLogic.Flow.Nodes.Action;
 using IoTLogic.Flow.Nodes.Condition;
 using IoTLogic.Flow.Nodes.Data;
 using IoTLogic.Flow.Nodes.Trigger;
+using IoTLogic.Flow.Serialization;
 
 namespace IoTLogic
 {
@@ -25,7 +26,23 @@ namespace IoTLogic
             sensor.SetProperty("temperature", 35.5);
             sensor.SetProperty("humidity", 60.0);
 
+            var options = ParseOptions(args);
             var graph = BuildTemperatureAlarmGraph();
+
+            if (!string.IsNullOrWhiteSpace(options.ExportSamplePath))
+            {
+                LogicGraphDocumentSerializer.Save(
+                    options.ExportSamplePath,
+                    LogicGraphDocumentCompiler.Export(graph));
+                Console.WriteLine($"Exported sample graph to: {options.ExportSamplePath}");
+            }
+
+            if (!string.IsNullOrWhiteSpace(options.GraphPath))
+            {
+                graph = LogicGraphDocumentCompiler.Compile(
+                    LogicGraphDocumentSerializer.Load(options.GraphPath));
+                Console.WriteLine($"Loaded graph from JSON: {options.GraphPath}");
+            }
 
             using (var dispatcher = new TriggerDispatcher(registry))
             {
@@ -48,7 +65,7 @@ namespace IoTLogic
 
             Console.WriteLine("\n=== Complete ===");
 
-            if (HasPauseFlag(args))
+            if (options.Pause)
             {
                 Console.WriteLine("Press Enter to exit.");
                 Console.ReadLine();
@@ -91,6 +108,7 @@ namespace IoTLogic
             threshold.DefaultValues["threshold"] = 30.0;
             sendCommand.DefaultValues["commandName"] = "TurnOnAC";
             logAbove.DefaultValues["message"] = "High temperature detected: {0} C. AC command queued.";
+            logAbove.DefaultValues["level"] = LogLevel.Warning;
             logNormal.DefaultValues["message"] = "Temperature normal: {0:F1} C";
 
             return graph;
@@ -113,22 +131,61 @@ namespace IoTLogic
                 DateTime.UtcNow));
         }
 
-        private static bool HasPauseFlag(string[] args)
+        private static Options ParseOptions(string[] args)
         {
+            var options = new Options();
+
             if (args == null)
             {
-                return false;
+                return options;
             }
 
-            foreach (var arg in args)
+            for (var index = 0; index < args.Length; index++)
             {
+                var arg = args[index];
+
                 if (string.Equals(arg, "--pause", StringComparison.OrdinalIgnoreCase))
                 {
-                    return true;
+                    options.Pause = true;
+                    continue;
+                }
+
+                if (string.Equals(arg, "--graph", StringComparison.OrdinalIgnoreCase))
+                {
+                    options.GraphPath = ReadOptionValue(args, ref index, arg);
+                    continue;
+                }
+
+                if (string.Equals(arg, "--export-sample", StringComparison.OrdinalIgnoreCase))
+                {
+                    options.ExportSamplePath = ReadOptionValue(args, ref index, arg);
+                    continue;
                 }
             }
 
-            return false;
+            return options;
+        }
+
+        private static string ReadOptionValue(string[] args, ref int index, string optionName)
+        {
+            var valueIndex = index + 1;
+
+            if (valueIndex >= args.Length || string.IsNullOrWhiteSpace(args[valueIndex]))
+            {
+                throw new ArgumentException($"Option '{optionName}' requires a file path value.");
+            }
+
+            index = valueIndex;
+            return args[valueIndex];
+        }
+
+        private sealed class Options
+        {
+            public string ExportSamplePath { get; set; }
+
+            public string GraphPath { get; set; }
+
+            public bool Pause { get; set; }
         }
     }
 }
