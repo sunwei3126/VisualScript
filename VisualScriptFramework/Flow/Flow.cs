@@ -1,23 +1,21 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VisualScript.Core.EditorBinding;
-using VisualScript.Core.Ensure;
-using VisualScript.Core.Graph;
-using VisualScript.Core.Pooling;
-using VisualScript.Core.Reflection;
-using VisualScript.Core.Utities;
-using VisualScript.Core.Variables;
-using VisualScript.Flow.Connections;
-using VisualScript.Flow.Ports;
-using VVisualScript.Flow.Ports;
+using IoTLogic.Core.EditorBinding;
+using IoTLogic.Core.Ensure;
+using IoTLogic.Core.Graph;
+using IoTLogic.Core.Pooling;
+using IoTLogic.Core.Reflection;
+using IoTLogic.Core.Utities;
+using IoTLogic.Core.Variables;
+using IoTLogic.Flow.Connections;
+using IoTLogic.Flow.Ports;
 
-namespace VisualScript.Flow
+namespace IoTLogic.Flow
 {
     public sealed class Flow : IPoolable, IDisposable
     {
@@ -325,7 +323,7 @@ namespace VisualScript.Flow
             }
             catch (StackOverflowException ex)
             {
-                output.Unit.HandleException(stack, ex);
+                output.LogicNode.HandleException(stack, ex);
                 throw;
             }
 
@@ -335,7 +333,7 @@ namespace VisualScript.Flow
             if (enableDebug)
             {
                 var connectionEditorData = stack.GetElementDebugData<IUnitConnectionDebugData>(connection);
-                var inputUnitEditorData = stack.GetElementDebugData<IUnitDebugData>(input.Unit);
+                var inputUnitEditorData = stack.GetElementDebugData<IUnitDebugData>(input.LogicNode);
 
                 connectionEditorData.LastInvokeFrame = EditorTimeBinding.frame;
                 connectionEditorData.LastInvokeTime = EditorTimeBinding.time;
@@ -357,14 +355,14 @@ namespace VisualScript.Flow
             {
                 if (input.requiresCoroutine)
                 {
-                    throw new InvalidOperationException($"Port '{input.Key}' on '{input.Unit}' can only be triggered in a coroutine.");
+                    throw new InvalidOperationException($"Port '{input.Key}' on '{input.LogicNode}' can only be triggered in a coroutine.");
                 }
 
                 return input.action(this);
             }
             catch (Exception ex)
             {
-                input.Unit.HandleException(stack, ex);
+                input.LogicNode.HandleException(stack, ex);
                 throw;
             }
         }
@@ -388,7 +386,7 @@ namespace VisualScript.Flow
                 }
                 catch (Exception ex)
                 {
-                    input.Unit.HandleException(stack, ex);
+                    input.LogicNode.HandleException(stack, ex);
                     throw;
                 }
 
@@ -475,7 +473,7 @@ namespace VisualScript.Flow
 
             if (!output.supportsFetch)
             {
-                throw new InvalidOperationException($"The value of '{output.Key}' on '{output.Unit}' cannot be fetched dynamically, it must be assigned.");
+                throw new InvalidOperationException($"The value of '{output.Key}' on '{output.LogicNode}' cannot be fetched dynamically, it must be assigned.");
             }
 
             var recursionNode = new RecursionNode(output, stack);
@@ -486,7 +484,7 @@ namespace VisualScript.Flow
             }
             catch (StackOverflowException ex)
             {
-                output.Unit.HandleException(stack, ex);
+                output.LogicNode.HandleException(stack, ex);
                 throw;
             }
 
@@ -494,7 +492,7 @@ namespace VisualScript.Flow
             {
                 if (enableDebug)
                 {
-                    var outputUnitEditorData = stack.GetElementDebugData<IUnitDebugData>(output.Unit);
+                    var outputUnitEditorData = stack.GetElementDebugData<IUnitDebugData>(output.LogicNode);
 
                     outputUnitEditorData.LastInvokeFrame = EditorTimeBinding.frame;
                     outputUnitEditorData.LastInvokeTime = EditorTimeBinding.time;
@@ -537,7 +535,7 @@ namespace VisualScript.Flow
 
         public bool TryGetDefaultValue(ValueInput input, out object defaultValue)
         {
-            if (!input.Unit.DefaultValues.TryGetValue(input.Key, out defaultValue))
+            if (!input.LogicNode.DefaultValues.TryGetValue(input.Key, out defaultValue))
             {
                 return false;
             }
@@ -552,7 +550,7 @@ namespace VisualScript.Flow
             }
             catch (Exception ex)
             {
-                output.Unit.HandleException(stack, ex);
+                output.LogicNode.HandleException(stack, ex);
                 throw;
             }
         }
@@ -620,11 +618,6 @@ namespace VisualScript.Flow
                     return false;
                 }
 
-                if (typeof(Component).IsAssignableFrom(input.Type))
-                {
-                    defaultValue = defaultValue?.ConvertTo(input.Type);
-                }
-
                 if (!input.allowsNull && defaultValue == null)
                 {
                     return false;
@@ -645,11 +638,6 @@ namespace VisualScript.Flow
             if (!ConversionUtility.CanConvert(connectedValue, input.Type, false))
             {
                 return false;
-            }
-
-            if (typeof(Component).IsAssignableFrom(input.Type))
-            {
-                connectedValue = connectedValue?.ConvertTo(input.Type);
             }
 
             if (!input.allowsNull && connectedValue == null)
@@ -676,7 +664,7 @@ namespace VisualScript.Flow
             }
 
             // Check each value dependency
-            foreach (var relation in output.Unit.Relations.WithDestination(output))
+            foreach (var relation in output.LogicNode.Relations.WithDestination(output))
             {
                 if (relation.Source is ValueInput)
                 {
@@ -703,7 +691,7 @@ namespace VisualScript.Flow
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Prediction check failed for '{output.Key}' on '{output.Unit}':\n{ex}");
+                Console.WriteLine($"Prediction check failed for '{output.Key}' on '{output.LogicNode}':\n{ex}");
 
                 return false;
             }

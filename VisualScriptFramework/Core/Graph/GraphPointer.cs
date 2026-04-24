@@ -1,12 +1,12 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using VisualScript.Core.Machines;
-using VisualScript.Core.Macros;
-using VisualScript.Core.Utities;
+using IoTLogic.Core.Machines;
+using IoTLogic.Core.Macros;
+using IoTLogic.Core.Utities;
 
-namespace VisualScript.Core.Graph
+namespace IoTLogic.Core.Graph
 {
     public abstract class GraphPointer
     {
@@ -23,7 +23,7 @@ namespace VisualScript.Core.Graph
         {
             if (!IsValidRoot(root))
             {
-                throw new ArgumentException("Graph pointer root must be a valid Unity object with a non-null child graph.", nameof(root));
+                throw new ArgumentException("Graph pointer root must provide a non-null child graph.", nameof(root));
             }
 
             if (!(root is IMachine  || root is IMacro))

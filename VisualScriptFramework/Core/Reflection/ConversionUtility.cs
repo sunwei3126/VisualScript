@@ -1,13 +1,13 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using VisualScript.Core.Exceptions;
-using VisualScript.Core.Utities;
+using IoTLogic.Core.Exceptions;
+using IoTLogic.Core.Utities;
 
-namespace VisualScript.Core.Reflection
+namespace IoTLogic.Core.Reflection
 {
     public static class ConversionUtility
     {
@@ -23,7 +23,6 @@ namespace VisualScript.Core.Reflection
             UserDefinedExplicit,
             UserDefinedThenNumericImplicit,
             UserDefinedThenNumericExplicit,
-            UnityHierarchy,
             EnumerableToArray,
             EnumerableToList,
             ToString
@@ -167,20 +166,6 @@ namespace VisualScript.Core.Reflection
                 typeof(IEnumerable).IsAssignableFrom(source) &&
                 destination.IsGenericType &&
                 destination.GetGenericTypeDefinition() == typeof(List<>);
-        }
-
-        private static bool HasUnityHierarchyConversion(Type source, Type destination)
-        {
-            //if (destination == typeof(GameObject))
-            //{
-            //    return typeof(Component).IsAssignableFrom(source);
-            //}
-            //else if (typeof(Component).IsAssignableFrom(destination) || destination.IsInterface)
-            //{
-            //    return source == typeof(GameObject) || typeof(Component).IsAssignableFrom(source);
-            //}
-
-            return false;
         }
 
         private static bool IsValidConversion(ConversionType conversionType, bool guaranteed)
@@ -329,10 +314,6 @@ namespace VisualScript.Core.Reflection
             else if (HasExplicitNumericConversion(source, destination))
             {
                 return ConversionType.NumericExplicit;
-            }
-            else if (HasUnityHierarchyConversion(source, destination))
-            {
-                return ConversionType.UnityHierarchy;
             }
             else if (HasEnumerableToArrayConversion(source, destination))
             {

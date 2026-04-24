@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VisualScript.Core.Variables
+namespace IoTLogic.Core.Variables
 {
     public enum VariableKind
     {
@@ -19,24 +19,22 @@ namespace VisualScript.Core.Variables
         Graph,
 
         /// <summary>
-        /// Variables shared across the current game object.
+        /// Variables shared across the current host object.
         /// </summary>
         Object,
 
         /// <summary>
-        /// Variables shared across the current scene.
+        /// Variables shared across the current host scope.
         /// </summary>
         Scene,
 
         /// <summary>
-        /// Variables shared across scenes.
-        /// These will be reset when the application quits.
+        /// Variables shared across host scopes for the current process.
         /// </summary>
         Application,
 
         /// <summary>
-        /// Variables that persist even after the application quits.
-        /// Unity object references are not supported.
+        /// Variables that persist beyond the current process lifetime.
         /// </summary>
         Saved
     }

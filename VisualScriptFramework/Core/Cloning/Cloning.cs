@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using VisualScript.Core.Ensure;
+using IoTLogic.Core.Ensure;
 
-namespace VisualScript.Core.Reflection
+namespace IoTLogic.Core.Reflection
 {
     public static class Cloning
     {
@@ -44,6 +44,11 @@ namespace VisualScript.Core.Reflection
         public static T CloneViaFakeSerialization<T>(this T original)
         {
             return (T)CloneViaFakeSerialization((object)original);
+        }
+
+        public static object CloneViaFakeSerialization(this object original)
+        {
+            return Clone(original, fieldsCloner, tryPreserveInstances: true);
         }
 
         internal static object Clone(CloningContext context, object original)
