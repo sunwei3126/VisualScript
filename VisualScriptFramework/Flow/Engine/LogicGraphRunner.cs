@@ -28,7 +28,7 @@ namespace IoTLogic.Flow.Engine
             _machine = new LogicGraphMachine(graph);
         }
 
-        // ©¤©¤ Lifecycle ©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤
+        // Lifecycle
 
         /// <summary>
         /// Instantiates the graph so event listeners and node state are active.
@@ -53,7 +53,7 @@ namespace IoTLogic.Flow.Engine
             _reference = null;
         }
 
-        // ©¤©¤ Execution ©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤
+        // Execution
 
         /// <summary>
         /// Runs the graph for the given <paramref name="triggerContext"/>.
@@ -103,6 +103,47 @@ namespace IoTLogic.Flow.Engine
             return result;
         }
 
+        /// <summary>
+        /// Runs every <see cref="TimerTriggerNode"/> in the graph once.
+        /// Use this from an external scheduler or demo harness when a timer tick is due.
+        /// </summary>
+        public ExecutionResult ExecuteTimerTicks()
+        {
+            if (_disposed) throw new ObjectDisposedException(nameof(LogicGraphRunner));
+            if (_reference == null)
+                throw new InvalidOperationException($"Runner '{Name}' has not been started. Call Start() first.");
+
+            var result = new ExecutionResult();
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+
+            try
+            {
+                var triggerNodes = Graph.LogicNodes
+                    .OfType<TimerTriggerNode>()
+                    .ToList();
+
+                foreach (var triggerNode in triggerNodes)
+                {
+                    FireTimerTrigger(triggerNode);
+                }
+
+                result.Succeeded = true;
+            }
+            catch (Exception ex)
+            {
+                result.Succeeded = false;
+                result.Error = ex;
+                Console.WriteLine($"[LogicGraphRunner:{Name}] Timer execution error: {ex}");
+            }
+            finally
+            {
+                sw.Stop();
+                result.Duration = sw.Elapsed;
+            }
+
+            return result;
+        }
+
         private void FireTrigger(DeviceEventTriggerNode triggerNode, TriggerContext ctx)
         {
             var flow = Flow.New(_reference);
@@ -110,7 +151,7 @@ namespace IoTLogic.Flow.Engine
             // Inject TriggerContext so all downstream nodes can read it
             flow.variables.Set(DeviceEventTriggerNode.TriggerContextKey, ctx);
 
-            // Check filter ¡ª evaluate with the live flow so filter inputs
+            // Check filter by evaluating with the live flow so filter inputs
             // can themselves be connected to data nodes
             if (!triggerNode.Matches(ctx.Event, flow))
             {
@@ -129,7 +170,27 @@ namespace IoTLogic.Flow.Engine
             }
         }
 
-        // ©¤©¤ IDisposable ©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤
+
+        private void FireTimerTrigger(TimerTriggerNode triggerNode)
+        {
+            var flow = Flow.New(_reference);
+
+            try
+            {
+                triggerNode.Tick();
+
+                if (triggerNode.triggered.HasValidConnection)
+                {
+                    flow.Invoke(triggerNode.triggered);
+                }
+            }
+            finally
+            {
+                flow.Dispose();
+            }
+        }
+
+        // IDisposable
         public void Dispose()
         {
             if (_disposed) return;

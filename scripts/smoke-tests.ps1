@@ -98,6 +98,62 @@ function New-TemperatureGraph
     return $graph
 }
 
+function New-BasicNodeTimerGraph
+{
+    $graph = [IoTLogic.Flow.LogicGraph]::new()
+    $graph.Title = "Timer basic node demo"
+
+    $timer = [IoTLogic.Flow.Nodes.Trigger.TimerTriggerNode]::new()
+    $foreach = [IoTLogic.Flow.Framework.ForEach]::new()
+    $absolute = [IoTLogic.Flow.Framework.ScalarAbsolute]::new()
+    $compare = [IoTLogic.Flow.Nodes.Condition.CompareConditionNode]::new()
+    $if = [IoTLogic.Flow.Framework.If]::new()
+    $logLarge = [IoTLogic.Flow.Nodes.Action.LogMessageNode]::new()
+    $logSmall = [IoTLogic.Flow.Nodes.Action.LogMessageNode]::new()
+
+    $graph.LogicNodes.Add($timer)
+    $graph.LogicNodes.Add($foreach)
+    $graph.LogicNodes.Add($absolute)
+    $graph.LogicNodes.Add($compare)
+    $graph.LogicNodes.Add($if)
+    $graph.LogicNodes.Add($logLarge)
+    $graph.LogicNodes.Add($logSmall)
+
+    foreach ($node in $graph.LogicNodes)
+    {
+        $node.EnsureDefined()
+    }
+
+    $graph.ControlConnections.Add(
+        [IoTLogic.Flow.Connections.ControlConnection]::new($timer.triggered, $foreach.enter))
+    $graph.ControlConnections.Add(
+        [IoTLogic.Flow.Connections.ControlConnection]::new($foreach.body, $if.enter))
+    $graph.ControlConnections.Add(
+        [IoTLogic.Flow.Connections.ControlConnection]::new($if.ifTrue, $logLarge.enter))
+    $graph.ControlConnections.Add(
+        [IoTLogic.Flow.Connections.ControlConnection]::new($if.ifFalse, $logSmall.enter))
+
+    $graph.ValueConnections.Add(
+        [IoTLogic.Flow.Connections.ValueConnection]::new($foreach.currentItem, $absolute.input))
+    $graph.ValueConnections.Add(
+        [IoTLogic.Flow.Connections.ValueConnection]::new($absolute.output, $compare.left))
+    $graph.ValueConnections.Add(
+        [IoTLogic.Flow.Connections.ValueConnection]::new($compare.result, $if.condition))
+    $graph.ValueConnections.Add(
+        [IoTLogic.Flow.Connections.ValueConnection]::new($absolute.output, $logLarge.value))
+    $graph.ValueConnections.Add(
+        [IoTLogic.Flow.Connections.ValueConnection]::new($absolute.output, $logSmall.value))
+
+    $foreach.DefaultValues["collection"] = [single[]]@(-3, -1, 4)
+    $compare.DefaultValues["right"] = 2.0
+    $compare.DefaultValues["operator"] = [IoTLogic.Flow.Nodes.Condition.CompareOperator]::GreaterThan
+    $logLarge.DefaultValues["message"] = "abs > 2: {0}"
+    $logLarge.DefaultValues["level"] = [IoTLogic.Flow.Nodes.Action.LogLevel]::Warning
+    $logSmall.DefaultValues["message"] = "abs <= 2: {0}"
+
+    return $graph
+}
+
 $frameworkAssembly = Resolve-Path (Join-Path $PSScriptRoot "..\VisualScriptFramework\bin\Debug\VisualScriptFramework.dll")
 Add-Type -Path $frameworkAssembly
 
@@ -150,6 +206,36 @@ Step "graph execution" {
     }
     finally
     {
+        $runner.Dispose()
+    }
+}
+
+Step "timer basic nodes execution" {
+    $graph = New-BasicNodeTimerGraph
+    $runner = [IoTLogic.Flow.Engine.LogicGraphRunner]::new($graph, "timer-basic-nodes")
+    $messages = [System.Collections.Generic.List[string]]::new()
+    $previousLogHandler = [IoTLogic.Flow.Nodes.Action.LogMessageNode]::LogHandler
+
+    [IoTLogic.Flow.Nodes.Action.LogMessageNode]::LogHandler =
+        [System.Action[IoTLogic.Flow.Nodes.Action.LogLevel,string]] {
+            param($level, $message)
+            $messages.Add("$level|$message")
+        }
+
+    try
+    {
+        $runner.Start()
+        $result = $runner.ExecuteTimerTicks()
+
+        Assert-True $result.Succeeded "Timer graph execution should succeed."
+        Assert-Equal $messages.Count 3 "ForEach should process all three demo values."
+        Assert-Match ($messages -join "`n") "Warning\|abs > 2: 3" "The true branch should log the absolute value of -3."
+        Assert-Match ($messages -join "`n") "Info\|abs <= 2: 1" "The false branch should log the absolute value of -1."
+        Assert-Match ($messages -join "`n") "Warning\|abs > 2: 4" "The true branch should log the absolute value of 4."
+    }
+    finally
+    {
+        [IoTLogic.Flow.Nodes.Action.LogMessageNode]::LogHandler = $previousLogHandler
         $runner.Dispose()
     }
 }
